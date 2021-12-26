@@ -1,0 +1,37 @@
+/* 设置全局样式 */
+page {
+	/* 页面高度100% */
+	height: 100%;
+	/* 字体大小28upx */
+	font-size: 28upx;
+	/* 行高1.8; */
+	line-height: 1.8;
+	/* 背影颜色 */
+	background: #FFFFFF;
+}
+
+/* 图片默认100%宽度 */
+image {
+	width: 100%;
+}
+
+/* 主色调 */
+/* 主背影颜色 */
+.main-bg-color {
+	background: #FD6801;
+}
+
+/* 主点击背景颜色 */
+.main-bg-hover-color {
+	background: #FD1000;
+}
+
+/* 主字体颜色 */
+.main-text-color {
+	color: #FD6801;
+}
+
+/* 边框颜色 */
+.main-border-color {
+	border-color: #F1F1F1;
+}
