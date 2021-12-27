@@ -20,6 +20,8 @@ export default {
 @import '/common/animate.css';
 /* 自定义图标库 */
 @import '/common/icon.css';
+/* Ui基础库 */
+@import '/common/zcm-main.css';
 /* 公共样式 */
 @import '/common/common.css';
 </style>
