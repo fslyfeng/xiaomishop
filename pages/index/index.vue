@@ -1,6 +1,5 @@
 <template>
-	<view class="content"><view class="iconfont icon-saoyisao"></view>
-	<view class="iconfont icon-xiaoxi"></view></view>
+	<view class="content"></view>
 </template>
 
 <script>
