@@ -1,12 +1,29 @@
 <template>
-	<view class="content"></view>
+	<view>
+		<!-- 轮播图组件 -->
+		<swiper-image :resdata="swipers"></swiper-image>
+	</view>
 </template>
 
 <script>
+import swiperImage from '@/components/index/swiper-image.vue';
 export default {
+	components: {
+		swiperImage
+	},
 	data() {
 		return {
-			title: 'Hello'
+			swipers: [
+				{
+					src: '../../static/images/demo/demo4.jpg'
+				},
+				{
+					src: '../../static/images/demo/demo4.jpg'
+				},
+				{
+					src: '../../static/images/demo/demo4.jpg'
+				}
+			]
 		};
 	},
 	onLoad() {},
