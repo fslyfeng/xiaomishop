@@ -3,56 +3,17 @@
 		<!-- 轮播图组件 swiper-image.vue-->
 		<swiper-image :resdata="swipers"></swiper-image>
 		<!-- 首页分类 -->
-		<view class="row j-center py-2 m-2">
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-			<view class="span-4 d-flex flex-column j-center a-center py-1">
-				<image src="/static/images/indexnav/1.png" style="width:60upx;height: 60upx;" mode="widthFix"></image>
-				<text class="font-sm">新品发布</text>
-			</view>
-		</view>
+		<index-nav :resdata="indexnavs"></index-nav>
 	</view>
 </template>
 
 <script>
 import swiperImage from '@/components/index/swiper-image.vue';
+import indexNav from '@/components/index/index-nav.vue';
 export default {
 	components: {
-		swiperImage
+		swiperImage,
+		indexNav
 	},
 	data() {
 		return {
@@ -66,6 +27,18 @@ export default {
 				{
 					src: '../../static/images/demo/demo4.jpg'
 				}
+			],
+			indexnavs: [
+				{ src: '../../static/images/indexnav/1.png', text: '新品发布' },
+				{ src: '../../static/images/indexnav/2.gif', text: '新品发布' },
+				{ src: '../../static/images/indexnav/3.gif', text: '新品发布' },
+				{ src: '../../static/images/indexnav/4.gif', text: '新品发布' },
+				{ src: '../../static/images/indexnav/5.gif', text: '新品发布' },
+				{ src: '../../static/images/indexnav/6.gif', text: '新品发布' },
+				{ src: '../../static/images/indexnav/7.gif', text: '新品发布' },
+				{ src: '../../static/images/indexnav/8.gif', text: '新品发布' },
+				{ src: '../../static/images/indexnav/9.gif', text: '新品发布' },
+				{ src: '../../static/images/indexnav/10.gif', text: '新品发布' }
 			]
 		};
 	},
