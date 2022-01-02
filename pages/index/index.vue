@@ -4,6 +4,8 @@
 		<swiper-image :resdata="swipers"></swiper-image>
 		<!-- 首页分类 -->
 		<index-nav :resdata="indexnavs"></index-nav>
+		<!-- 全局分割线 -->
+		<divider></divider>
 	</view>
 </template>
 
