@@ -1,21 +1,23 @@
 <template>
 	<view>
 		<!-- 轮播图组件 swiper-image.vue-->
-		<swiper-image :resdata="swipers"></swiper-image>
-		<!-- 首页分类 -->
-		<index-nav :resdata="indexnavs"></index-nav>
-		<!-- 全局分割线 -->
-		<divider></divider>
+		<swiper-image :resdata="swipers" />
+		<index-nav :resdata="indexnavs" />
+		<divider />
+		<!-- 大图广告位 -->
+		<card headTitle="每日精选" bodyCover="../../static/images/demo/demo4.jpg" />
 	</view>
 </template>
 
 <script>
 import swiperImage from '@/components/index/swiper-image.vue';
 import indexNav from '@/components/index/index-nav.vue';
+import card from '@/components/common/card.vue';
 export default {
 	components: {
 		swiperImage,
-		indexNav
+		indexNav,
+		card
 	},
 	data() {
 		return {
