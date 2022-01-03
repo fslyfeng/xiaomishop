@@ -1,11 +1,30 @@
 <template>
-	<view>
+	<view class="pb-5">
 		<!-- 轮播图组件 swiper-image.vue-->
 		<swiper-image :resdata="swipers" />
+		<!-- 首页分类 -->
 		<index-nav :resdata="indexnavs" />
+		<!-- 全局分割线 -->
 		<divider />
 		<!-- 大图广告位 -->
 		<card headTitle="每日精选" bodyCover="../../static/images/demo/demo4.jpg" />
+		<!-- 公共列表组件 -->
+		<view class="row pb-5">
+			<view style="width:373.5upx;">
+				<image src="/static/images/demo/list/1.jpg" mode="widthFix" lazy-load></image>
+				<view class="p-2 pt-1">
+					<view class="font-md">米家空调</view>
+					<text class="d-block font text-light-muted">产品简介</text>
+					<view class="d-flex my-1">
+						<view class="d-flex main-text-color font-md line-h">
+							<text class="a-self-start font-sm">¥</text>
+							100
+						</view>
+						<view class="font-sm text-light-muted line-through ml-1 a-self-end line-h">¥200</view>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
