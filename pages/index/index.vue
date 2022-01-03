@@ -16,10 +16,7 @@
 					<view class="font-md">米家空调</view>
 					<text class="d-block font text-light-muted">产品简介</text>
 					<view class="d-flex my-1">
-						<view class="d-flex main-text-color font-md line-h">
-							<text class="a-self-start font-sm">¥</text>
-							100
-						</view>
+						<price>1200</price>
 						<view class="font-sm text-light-muted line-through ml-1 a-self-end line-h">¥200</view>
 					</view>
 				</view>
@@ -32,11 +29,13 @@
 import swiperImage from '@/components/index/swiper-image.vue';
 import indexNav from '@/components/index/index-nav.vue';
 import card from '@/components/common/card.vue';
+import price from '@/components/common/price.vue';
 export default {
 	components: {
 		swiperImage,
 		indexNav,
-		card
+		card,
+		price
 	},
 	data() {
 		return {
