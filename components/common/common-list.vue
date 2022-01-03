@@ -5,7 +5,7 @@
 			<view class="font-md">{{ item.title }}</view>
 			<text class="d-block font text-light-muted">{{ item.desc }}</text>
 			<view class="d-flex my-1">
-				<price>¥{{ item.pprice }}</price>
+				<price>{{ item.pprice }}</price>
 				<view class="font-sm text-light-muted line-through ml-1 a-self-end line-h">¥{{ item.oprice }}</view>
 			</view>
 		</view>
