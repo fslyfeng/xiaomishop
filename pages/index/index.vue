@@ -9,18 +9,8 @@
 		<!-- 大图广告位 -->
 		<card headTitle="每日精选" bodyCover="../../static/images/demo/demo4.jpg" />
 		<!-- 公共列表组件 -->
-		<view class="row pb-5">
-			<view style="width:373.5upx;">
-				<image src="/static/images/demo/list/1.jpg" mode="widthFix" lazy-load></image>
-				<view class="p-2 pt-1">
-					<view class="font-md">米家空调</view>
-					<text class="d-block font text-light-muted">产品简介</text>
-					<view class="d-flex my-1">
-						<price>1200</price>
-						<view class="font-sm text-light-muted line-through ml-1 a-self-end line-h">¥200</view>
-					</view>
-				</view>
-			</view>
+		<view class="row j-sb pb-5">
+			<block v-for="(item, index) in commonList" :key="index"><commonList :item="item" :index="index"></commonList></block>
 		</view>
 	</view>
 </template>
@@ -29,13 +19,13 @@
 import swiperImage from '@/components/index/swiper-image.vue';
 import indexNav from '@/components/index/index-nav.vue';
 import card from '@/components/common/card.vue';
-import price from '@/components/common/price.vue';
+import commonList from '@/components/common/common-list.vue';
 export default {
 	components: {
 		swiperImage,
 		indexNav,
 		card,
-		price
+		commonList
 	},
 	data() {
 		return {
@@ -61,6 +51,29 @@ export default {
 				{ src: '../../static/images/indexnav/8.gif', text: '新品发布' },
 				{ src: '../../static/images/indexnav/9.gif', text: '新品发布' },
 				{ src: '../../static/images/indexnav/10.gif', text: '新品发布' }
+			],
+			commonList: [
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1299,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1599,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1699,
+					pprice: 1199
+				}
 			]
 		};
 	},
