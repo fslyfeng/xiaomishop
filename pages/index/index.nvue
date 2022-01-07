@@ -1,0 +1,31 @@
+<template>
+	<div>
+		<!-- 轮播图组件 -->
+		<slider :auto-play="true" :interval="3000" class="slider">
+			<div style="position: relative;"><image class="image" resize="cover" src="../../static/images/demo/demo4.jpg"></image></div>
+			<div style="position: relative;"><image class="image" resize="cover" src="../../static/images/demo/demo4.jpg"></image></div>
+			<div style="position: relative;"><image class="image" resize="cover" src="../../static/images/demo/demo4.jpg"></image></div>
+			<indicator class="indicator"></indicator>
+		</slider>
+	</div>
+</template>
+
+<script></script>
+
+<style>
+.slider,
+.image {
+	width: 750px;
+	height: 300px;
+}
+.indicator {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 150px;
+	height: 80px;
+	background-color: rgba(0, 0, 0, 0);
+	item-color: rgba(255, 255, 255, 0.5);
+	item-selected-color: #ffffff;
+}
+</style>
