@@ -1,19 +1,65 @@
 <template>
 	<div>
 		<!-- 轮播图组件 -->
-		<sum-slider :swipers="swipers"></sum-slider>
+		<sum-slider :swipers="swipers" />
+		<!-- 图标分类组件 -->
+		<sum-index-navs :resdata="indexNavs" />
 	</div>
 </template>
 
 <script>
 import sumSlider from '@/components/index/nvue/sum-slider.nvue';
+import sumIndexNavs from '@/components/index/nvue/sum-index-navs.nvue';
 export default {
 	components: {
-		sumSlider
+		sumSlider,
+		sumIndexNavs
 	},
 	data() {
 		return {
-			swipers: [{ src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }]
+			swipers: [{ src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }],
+			indexNavs: [
+				{
+					src: '/static/images/indexnav/1.png',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/2.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/3.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/4.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/5.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/6.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/7.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/8.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/9.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/10.gif',
+					name: '新品分类'
+				}
+			]
 		};
 	}
 };
