@@ -4,16 +4,21 @@
 		<sum-slider :swipers="swipers" />
 		<!-- 图标分类组件 -->
 		<sum-index-navs :resdata="indexNavs" />
+		<!-- 封装全局分割线 -->
+		<divider />
 	</div>
 </template>
 
 <script>
 import sumSlider from '@/components/index/nvue/sum-slider.nvue';
 import sumIndexNavs from '@/components/index/nvue/sum-index-navs.nvue';
+import divider from '@/components/common/divider.nvue';
+const currentWebview = plus.webview.currentWebview();
 export default {
 	components: {
 		sumSlider,
-		sumIndexNavs
+		sumIndexNavs,
+		divider
 	},
 	data() {
 		return {
@@ -61,7 +66,18 @@ export default {
 				}
 			]
 		};
-	}
+	},
+	created() {
+		//监听当前端口显示
+		currentWebview.addEventListener('show', e => {
+			console.log('indexShow');
+		});
+	},
+	beforeDestroy() {
+		//移除监听事件
+		currentWebview.addEventListener('show', e => {});
+	},
+	methods: {}
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="w-100 row px-2">
+		<div class="w-100 row px-2 mb-3">
 			<div v-for="(item, index) in resdata" :key="index" class="j-center a-center mt-3 index-nav">
 				<image :src="item.src" class="index-nav-image"></image>
 				<text class="font-sm text-muted mt-1">{{ item.name }}</text>
