@@ -14,7 +14,7 @@ export default {
 	}
 };
 </script>
-
+<style src="@/common/zcm-main-nvue.css"></style>
 <style scoped>
 .slider,
 .image {

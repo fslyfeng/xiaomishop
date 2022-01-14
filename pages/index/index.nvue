@@ -6,6 +6,8 @@
 		<sum-index-navs :resdata="indexNavs" />
 		<!-- 封装全局分割线 -->
 		<divider />
+		<!-- 大图广告位 -->
+		<sumOneAdv></sumOneAdv>
 	</div>
 </template>
 
@@ -13,12 +15,14 @@
 import sumSlider from '@/components/index/nvue/sum-slider.nvue';
 import sumIndexNavs from '@/components/index/nvue/sum-index-navs.nvue';
 import divider from '@/components/common/divider.nvue';
+import sumOneAdv from '@/components/index/nvue/sum-one-adv.nvue';
 const currentWebview = plus.webview.currentWebview();
 export default {
 	components: {
 		sumSlider,
 		sumIndexNavs,
-		divider
+		divider,
+		sumOneAdv
 	},
 	data() {
 		return {
@@ -80,5 +84,5 @@ export default {
 	methods: {}
 };
 </script>
-
+<style src="@/common/zcm-main-nvue.css"></style>
 <style></style>

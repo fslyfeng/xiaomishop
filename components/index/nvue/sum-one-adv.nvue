@@ -1,0 +1,14 @@
+<template>
+	<div>
+		<div class="w-100">
+			<div class="p-2 border-bottom"><text class="text-dark font-md font-weight">每日精选</text></div>
+			<div><image src="../../static/images/demo/demo4.jpg" style="height: 300px;" class="w-100"></image></div>
+		</div>
+	</div>
+</template>
+
+<script>
+export default {};
+</script>
+<style src="@/common/zcm-main-nvue.css"></style>
+<style></style>
