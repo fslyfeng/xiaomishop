@@ -7,7 +7,19 @@
 		<!-- 封装全局分割线 -->
 		<divider />
 		<!-- 大图广告位 -->
-		<sumOneAdv></sumOneAdv>
+		<sumOneAdv :item="oneAdv" />
+		<!-- 公共列表组件 -->
+		<div class="row w-100">
+			<div class="col-6" style="padding-left: 2.5px;padding-right: 2.5px;">
+				<image src="../../static/images/demo/list/5.jpg" style="width: 370px;height:370px ;"></image>
+				<text class="font-md text-dark px-2 py-1" style="lines:1;">小米空调</text>
+				<text class="px-2 font text-light-muted" style="lines:1;">产品细节</text>
+				<div class="px-2 pt-1 row">
+					<price>1200</price>
+					<text class="line-through text-light-muted ml-1" style="align-self:flex-end;">¥2340</text>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -16,13 +28,15 @@ import sumSlider from '@/components/index/nvue/sum-slider.nvue';
 import sumIndexNavs from '@/components/index/nvue/sum-index-navs.nvue';
 import divider from '@/components/common/divider.nvue';
 import sumOneAdv from '@/components/index/nvue/sum-one-adv.nvue';
+import price from '@/components/common/price.nvue'
 const currentWebview = plus.webview.currentWebview();
 export default {
 	components: {
 		sumSlider,
 		sumIndexNavs,
 		divider,
-		sumOneAdv
+		sumOneAdv,
+		price
 	},
 	data() {
 		return {
@@ -68,7 +82,11 @@ export default {
 					src: '/static/images/indexnav/10.gif',
 					name: '新品分类'
 				}
-			]
+			],
+			oneAdv: {
+				cover: '/static/images/demo/demo4.jpg',
+				title: '每日精选'
+			}
 		};
 	},
 	created() {
