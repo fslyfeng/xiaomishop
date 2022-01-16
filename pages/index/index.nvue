@@ -10,15 +10,7 @@
 		<sumOneAdv :item="oneAdv" />
 		<!-- 公共列表组件 -->
 		<div class="row w-100">
-			<div class="col-6" style="padding-left: 2.5px;padding-right: 2.5px;">
-				<image src="../../static/images/demo/list/5.jpg" style="width: 370px;height:370px ;"></image>
-				<text class="font-md text-dark px-2 py-1" style="lines:1;">小米空调</text>
-				<text class="px-2 font text-light-muted" style="lines:1;">产品细节</text>
-				<div class="px-2 pt-1 row">
-					<price>1200</price>
-					<text class="line-through text-light-muted ml-1" style="align-self:flex-end;">¥2340</text>
-				</div>
-			</div>
+			<block v-for="(item, index) in list" :key="index"><commonList :item="item" :index="index" /></block>
 		</div>
 	</scroller>
 </template>
@@ -28,7 +20,8 @@ import sumSlider from '@/components/index/nvue/sum-slider.nvue';
 import sumIndexNavs from '@/components/index/nvue/sum-index-navs.nvue';
 import divider from '@/components/common/divider.nvue';
 import sumOneAdv from '@/components/index/nvue/sum-one-adv.nvue';
-import price from '@/components/common/price.nvue';
+import commonList from '@/components/common/common-list.nvue';
+
 const currentWebview = plus.webview.currentWebview();
 export default {
 	components: {
@@ -36,7 +29,7 @@ export default {
 		sumIndexNavs,
 		divider,
 		sumOneAdv,
-		price
+		commonList
 	},
 	data() {
 		return {
@@ -86,7 +79,30 @@ export default {
 			oneAdv: {
 				cover: '/static/images/demo/demo4.jpg',
 				title: '每日精选'
-			}
+			},
+			list: [
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1299,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1599,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1699,
+					pprice: 1199
+				}
+			]
 		};
 	},
 	created() {
