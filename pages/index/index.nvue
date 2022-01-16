@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<scroller>
 		<!-- 轮播图组件 -->
 		<sum-slider :swipers="swipers" />
 		<!-- 图标分类组件 -->
@@ -20,7 +20,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</scroller>
 </template>
 
 <script>
@@ -28,7 +28,7 @@ import sumSlider from '@/components/index/nvue/sum-slider.nvue';
 import sumIndexNavs from '@/components/index/nvue/sum-index-navs.nvue';
 import divider from '@/components/common/divider.nvue';
 import sumOneAdv from '@/components/index/nvue/sum-one-adv.nvue';
-import price from '@/components/common/price.nvue'
+import price from '@/components/common/price.nvue';
 const currentWebview = plus.webview.currentWebview();
 export default {
 	components: {
