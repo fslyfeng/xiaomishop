@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<div class="col-6 common-list">
+		<div class="col-6 common-list mb-1">
 			<image :src="item.cover" class="common-list-cover"></image>
 			<text class="font-md text-dark px-2 py-1 common-list-lines">{{ item.title }}</text>
 			<text class="px-2 font text-light-muted common-list-lines">{{ item.desc }}</text>
-			<div class="px-2 pt-1 row">
+			<div class="px-2 pt-1 row a-end">
 				<price>{{ item.pprice }}</price>
 				<text class="line-through text-light-muted ml-1 common-list-oprice">¥{{ item.oprice }}</text>
 			</div>
@@ -36,8 +36,5 @@ export default {
 }
 .common-list-lines {
 	lines: 1;
-}
-.common-list-oprice {
-	align-self: flex-end;
 }
 </style>
