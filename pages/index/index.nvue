@@ -5,21 +5,57 @@
 
 		<!-- 横向滚动列表 -->
 		<slider class="flex-1" :index="tabIndex" :infinite="false" @change="sliderChange">
-			<div v-for="(item, index) in tabBars" :key="index">
-				<text class="font-lg">{{ item.name }}</text>
-			</div>
+			<list :show-scrollbar="false">
+				<!-- 下拉刷新 -->
+				<refresh class="w-100 flex-row j-center a-center" style="height: 80px;" @refresh="refresh" @pullingdown="pullingdown" :display="refreshShow">
+					<text class="font-sm text-muted">{{ refreshText }}</text>
+				</refresh>
+				<cell>
+					<!-- 轮播图组件 -->
+					<sum-slider :swipers="swipers" />
+					<!-- 图标分类组件 -->
+					<sum-index-navs :resdata="indexNavs" />
+					<!-- 封装全局分割线 -->
+					<divider />
+					<!-- 大图广告位 -->
+					<sumOneAdv :item="oneAdv" />
+					<!-- 公共列表组件 -->
+					<div class="row w-100">
+						<block v-for="(item, index) in list" :key="index"><commonList :item="item" :index="index" /></block>
+					</div>
+				</cell>
+				<!-- 上拉加载 -->
+				<loading class="w-100 flex-row j-center a-center" style="height: 70px;" @loading="onLoading" :display="loadingShow">
+					<text class="font-sm text-muted">Loading...</text>
+				</loading>
+			</list>
 		</slider>
 	</div>
 </template>
 
 <script>
+import sumSlider from '@/components/index/nvue/sum-slider.nvue';
+import sumIndexNavs from '@/components/index/nvue/sum-index-navs.nvue';
+import divider from '@/components/common/divider.nvue';
+import sumOneAdv from '@/components/index/nvue/sum-one-adv.nvue';
+import commonList from '@/components/common/common-list.nvue';
 import sumTabbar from '@/components/index/nvue/sum-tabbar.nvue';
+//获取当前窗口对象
+const currentWebview = plus.webview.currentWebview();
 export default {
 	components: {
-		sumTabbar
+		sumTabbar,
+		sumSlider,
+		sumIndexNavs,
+		divider,
+		sumOneAdv,
+		commonList
 	},
 	data() {
 		return {
+			refreshShow: 'hide',
+			refreshText: '下拉刷新...',
+			loadingShow: 'hide',
 			tabIndex: 0,
 			tabBars: [
 				{
@@ -72,15 +108,116 @@ export default {
 					id: 'tuijian',
 					template: 'specitl'
 				}
+			],
+			swipers: [{ src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }],
+			indexNavs: [
+				{
+					src: '/static/images/indexnav/1.png',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/2.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/3.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/4.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/5.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/6.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/7.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/8.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/9.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/10.gif',
+					name: '新品分类'
+				}
+			],
+			oneAdv: {
+				cover: '/static/images/demo/demo4.jpg',
+				title: '每日精选'
+			},
+			list: [
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1299,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1599,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1699,
+					pprice: 1199
+				}
 			]
 		};
 	},
+	created() {
+		//监听当前端口显示
+		currentWebview.addEventListener('show', e => {
+			console.log('indexShow');
+		});
+	},
+	beforeDestroy() {
+		//移除监听事件
+		currentWebview.addEventListener('show', e => {});
+	},
 	methods: {
 		tabChange(index) {
-			this.tabIndex=index
+			this.tabIndex = index;
 		},
 		sliderChange(e) {
 			this.tabIndex = e.index;
+		},
+		//上拉加载事件
+		onLoading() {
+			this.loadingShow = 'show';
+			setTimeout(() => {
+				//加载数据
+				this.loadingShow = 'hide';
+			}, 2000);
+		},
+		//执行刷新
+		refresh(e) {
+			this.refreshShow = 'show';
+			this.refreshText = '正在刷新...';
+			setTimeout(() => {
+				this.refreshShow = 'hide';
+				this.refreshText = '下拉可以刷新';
+			}, 1200);
+		},
+		//判断下拉刷新状态
+		pullingdown(e) {
+			this.refreshText = e.pullingDistance > e.viewHeight ? '释放就能刷新咯' : '下拉可以刷新';
 		}
 	}
 };
