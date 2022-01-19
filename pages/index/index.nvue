@@ -5,27 +5,60 @@
 
 		<!-- 横向滚动列表 -->
 		<slider class="flex-1" :index="tabIndex" :infinite="false" @change="sliderChange">
-			<list :show-scrollbar="false">
+			<list :show-scrollbar="false" v-for="(list, listIndex) in newsitems" :key="listIndex">
 				<!-- 下拉刷新 -->
-				<refresh class="w-100 flex-row j-center a-center" style="height: 80px;" @refresh="refresh" @pullingdown="pullingdown" :display="refreshShow">
-					<text class="font-sm text-muted">{{ refreshText }}</text>
+				<refresh class="w-100 flex-row j-center a-center" style="height: 80px;" @refresh="refresh" @pullingdown="pullingdown" :display="list.refreshShow">
+					<text class="font-sm text-muted">{{ list.refreshText }}</text>
 				</refresh>
-				<cell>
-					<!-- 轮播图组件 -->
-					<sum-slider :swipers="swipers" />
-					<!-- 图标分类组件 -->
-					<sum-index-navs :resdata="indexNavs" />
-					<!-- 封装全局分割线 -->
-					<divider />
-					<!-- 大图广告位 -->
-					<sumOneAdv :item="oneAdv" />
-					<!-- 公共列表组件 -->
-					<div class="row w-100">
-						<block v-for="(item, index) in list" :key="index"><commonList :item="item" :index="index" /></block>
-					</div>
-				</cell>
+
+				<!-- 首页模板 -->
+				<template v-if="tabBars[listIndex].template === 'index'">
+					<cell v-for="(listItem, ItemIndex) in list.data" :key="ItemIndex">
+						<!-- 轮播图组件 -->
+						<sum-slider v-if="listItem.type === 'swiper'" :swipers="listItem.data" />
+						<template v-if="listItem.type === 'indexnavs'">
+							<!-- 图标分类组件 -->
+							<sum-index-navs :resdata="listItem.data" />
+							<!-- 封装全局分割线 -->
+							<divider />
+						</template>
+
+						<!-- 大图广告位 -->
+						<sum-one-adv v-if="listItem.type === 'oneAdv'" :item="listItem.data" />
+						<!-- 公共列表组件 -->
+						<div class="w-100" v-if="listItem.type === 'list'">
+							<div class="p-2 border-bottom">
+								<text class="text-dark font-md font-weight">标题标题</text>
+							</div>
+							<div class="row w-100">
+								<block v-for="(item, index) in listItem.data" :key="index"><commonList :item="item" :index="index" /></block>
+							</div>
+						</div>
+					</cell>
+				</template>
+				<!-- 专题页 -->
+				<template v-else-if="tabBars[listIndex].template === 'specitl'">
+					<cell v-for="(listItem, ItemIndex) in list.data" :key="ItemIndex">
+						<!-- 轮播图组件 -->
+						<sum-slider v-if="listItem.type === 'swiper'" :swipers="listItem.data" />
+						<template v-if="listItem.type === 'indexnavs'">
+							<!-- 图标分类组件 -->
+							<sum-index-navs :resdata="listItem.data" />
+							<!-- 封装全局分割线 -->
+							<divider />
+						</template>
+
+						<!-- 大图广告位 -->
+						<sum-one-adv v-if="listItem.type === 'oneAdv'" :item="listItem.data" />
+						<!-- 公共列表组件 -->
+						<div class="row w-100" v-if="listItem.type === 'list'">
+							<block v-for="(item, index) in listItem.data" :key="index"><commonList :item="item" :index="index" /></block>
+						</div>
+					</cell>
+				</template>
+
 				<!-- 上拉加载 -->
-				<loading class="w-100 flex-row j-center a-center" style="height: 70px;" @loading="onLoading" :display="loadingShow">
+				<loading class="w-100 flex-row j-center a-center" style="height: 70px;" @loading="onLoading" :display="list.loadingShow">
 					<text class="font-sm text-muted">Loading...</text>
 				</loading>
 			</list>
@@ -40,6 +73,7 @@ import divider from '@/components/common/divider.nvue';
 import sumOneAdv from '@/components/index/nvue/sum-one-adv.nvue';
 import commonList from '@/components/common/common-list.nvue';
 import sumTabbar from '@/components/index/nvue/sum-tabbar.nvue';
+
 //获取当前窗口对象
 const currentWebview = plus.webview.currentWebview();
 export default {
@@ -53,9 +87,6 @@ export default {
 	},
 	data() {
 		return {
-			refreshShow: 'hide',
-			refreshText: '下拉刷新...',
-			loadingShow: 'hide',
 			tabIndex: 0,
 			tabBars: [
 				{
@@ -67,118 +98,9 @@ export default {
 					name: '推荐',
 					id: 'tuijian',
 					template: 'specitl'
-				},
-				{
-					name: '关注',
-					id: 'guanzhu',
-					template: 'index'
-				},
-				{
-					name: '推荐',
-					id: 'tuijian',
-					template: 'specitl'
-				},
-				{
-					name: '关注',
-					id: 'guanzhu',
-					template: 'index'
-				},
-				{
-					name: '推荐',
-					id: 'tuijian',
-					template: 'specitl'
-				},
-				{
-					name: '关注',
-					id: 'guanzhu',
-					template: 'index'
-				},
-				{
-					name: '推荐',
-					id: 'tuijian',
-					template: 'specitl'
-				},
-				{
-					name: '关注',
-					id: 'guanzhu',
-					template: 'index'
-				},
-				{
-					name: '推荐',
-					id: 'tuijian',
-					template: 'specitl'
 				}
 			],
-			swipers: [{ src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }],
-			indexNavs: [
-				{
-					src: '/static/images/indexnav/1.png',
-					name: '新品分类'
-				},
-				{
-					src: '/static/images/indexnav/2.gif',
-					name: '新品分类'
-				},
-				{
-					src: '/static/images/indexnav/3.gif',
-					name: '新品分类'
-				},
-				{
-					src: '/static/images/indexnav/4.gif',
-					name: '新品分类'
-				},
-				{
-					src: '/static/images/indexnav/5.gif',
-					name: '新品分类'
-				},
-				{
-					src: '/static/images/indexnav/6.gif',
-					name: '新品分类'
-				},
-				{
-					src: '/static/images/indexnav/7.gif',
-					name: '新品分类'
-				},
-				{
-					src: '/static/images/indexnav/8.gif',
-					name: '新品分类'
-				},
-				{
-					src: '/static/images/indexnav/9.gif',
-					name: '新品分类'
-				},
-				{
-					src: '/static/images/indexnav/10.gif',
-					name: '新品分类'
-				}
-			],
-			oneAdv: {
-				cover: '/static/images/demo/demo4.jpg',
-				title: '每日精选'
-			},
-			list: [
-				{
-					cover: '/static/images/demo/list/1.jpg',
-					title: '米家空调',
-					desc: '产品编码',
-					oprice: 1299,
-					pprice: 1199
-				},
-				{
-					cover: '/static/images/demo/list/1.jpg',
-					title: '米家空调',
-					desc: '产品编码',
-					oprice: 1599,
-					pprice: 1199
-				},
-				{
-					cover: '/static/images/demo/list/1.jpg',
-					title: '米家空调',
-					desc: '产品编码',
-					oprice: 1699,
-					pprice: 1199
-				}
-			]
+			newsitems: []
 		};
 	},
 	created() {
@@ -186,33 +108,205 @@ export default {
 		currentWebview.addEventListener('show', e => {
 			console.log('indexShow');
 		});
+		//生成随机数据
+		this.newsitems = this.randomfn();
 	},
 	beforeDestroy() {
 		//移除监听事件
 		currentWebview.addEventListener('show', e => {});
 	},
 	methods: {
+		//加载更多模拟数据
+		addData() {
+			//拿到当前索引
+			let e = this.tabIndex;
+			if (this.newsitems[e].data.length > 30) {
+				this.newsitems[e].loadingText = '没有更多了';
+				return;
+			}
+			let arr = [
+				{
+					type: 'swiper',
+					data: [
+						{
+							src: '../../static/images/demo/demo4.jpg'
+						},
+						{
+							src: '../../static/images/demo/demo4.jpg'
+						},
+						{
+							src: '../../static/images/demo/demo4.jpg'
+						}
+					]
+				},
+				{
+					type: 'indexnavs',
+					data: [
+						{ src: '../../static/images/indexnav/1.png', name: '新品发布' },
+						{ src: '../../static/images/indexnav/2.gif', name: '新品发布' },
+						{ src: '../../static/images/indexnav/3.gif', name: '新品发布' },
+						{ src: '../../static/images/indexnav/4.gif', name: '新品发布' },
+						{ src: '../../static/images/indexnav/5.gif', name: '新品发布' },
+						{ src: '../../static/images/indexnav/6.gif', name: '新品发布' },
+						{ src: '../../static/images/indexnav/7.gif', name: '新品发布' },
+						{ src: '../../static/images/indexnav/8.gif', name: '新品发布' },
+						{ src: '../../static/images/indexnav/9.gif', name: '新品发布' },
+						{ src: '../../static/images/indexnav/10.gif', name: '新品发布' }
+					]
+				},
+				{
+					type: 'oneAdv',
+					data: {
+						title: '每日精选',
+						cover: '/static/images/demo/demo4.jpg'
+					}
+				},
+				{
+					type: 'list',
+					data: [
+						{
+							cover: '/static/images/demo/list/1.jpg',
+							title: '米家空调',
+							desc: '产品编码',
+							oprice: 1299,
+							pprice: 1199
+						},
+						{
+							cover: '/static/images/demo/list/1.jpg',
+							title: '米家空调',
+							desc: '产品编码',
+							oprice: 1599,
+							pprice: 1199
+						},
+						{
+							cover: '/static/images/demo/list/1.jpg',
+							title: '米家空调',
+							desc: '产品编码',
+							oprice: 1699,
+							pprice: 1199
+						}
+					]
+				}
+			];
+			this.newsitems[e].data = [...this.newsitems[e].data, ...arr];
+		},
+		randomfn() {
+			let ary = [];
+			//拿到 tabbars 的长度，根据长度生成页面
+			let tablength = this.tabBars.length;
+			for (let i = 0; i < tablength; i++) {
+				let aryItem = {
+					refreshShow: 'hide',
+					refreshText: '下拉刷新...',
+					loadingShow: 'hide',
+					data: []
+				};
+				//给页面添加数据
+				if (this.tabBars[i].template === 'index') {
+					aryItem.data = [
+						{
+							type: 'swiper',
+							data: [
+								{
+									src: '../../static/images/demo/demo4.jpg'
+								},
+								{
+									src: '../../static/images/demo/demo4.jpg'
+								},
+								{
+									src: '../../static/images/demo/demo4.jpg'
+								}
+							]
+						},
+						{
+							type: 'indexnavs',
+							data: [
+								{ src: '../../static/images/indexnav/1.png', name: '新品发布' },
+								{ src: '../../static/images/indexnav/2.gif', name: '新品发布' },
+								{ src: '../../static/images/indexnav/3.gif', name: '新品发布' },
+								{ src: '../../static/images/indexnav/4.gif', name: '新品发布' },
+								{ src: '../../static/images/indexnav/5.gif', name: '新品发布' },
+								{ src: '../../static/images/indexnav/6.gif', name: '新品发布' },
+								{ src: '../../static/images/indexnav/7.gif', name: '新品发布' },
+								{ src: '../../static/images/indexnav/8.gif', name: '新品发布' },
+								{ src: '../../static/images/indexnav/9.gif', name: '新品发布' },
+								{ src: '../../static/images/indexnav/10.gif', name: '新品发布' }
+							]
+						},
+						{
+							type: 'oneAdv',
+							data: {
+								title: '每日精选',
+								cover: '/static/images/demo/demo4.jpg'
+							}
+						},
+						{
+							type: 'list',
+							data: [
+								{
+									cover: '/static/images/demo/list/1.jpg',
+									title: '米家空调',
+									desc: '产品编码',
+									oprice: 1299,
+									pprice: 1199
+								},
+								{
+									cover: '/static/images/demo/list/1.jpg',
+									title: '米家空调',
+									desc: '产品编码',
+									oprice: 1599,
+									pprice: 1199
+								},
+								{
+									cover: '/static/images/demo/list/1.jpg',
+									title: '米家空调',
+									desc: '产品编码',
+									oprice: 1699,
+									pprice: 1199
+								}
+							]
+						}
+					];
+				}
+				ary.push(aryItem);
+			}
+			return ary;
+		},
 		tabChange(index) {
 			this.tabIndex = index;
+			setTimeout(() => {
+				//加载数据
+				this.addData();
+			}, 100);
 		},
+		//监听横向滚动列表事件
 		sliderChange(e) {
 			this.tabIndex = e.index;
+			setTimeout(() => {
+				//加载数据
+				this.addData();
+			}, 100);
 		},
 		//上拉加载事件
 		onLoading() {
-			this.loadingShow = 'show';
+			//存储当前索引
+			var index = this.tabIndex;
+			this.newsitems[index].loadingShow = 'show';
 			setTimeout(() => {
 				//加载数据
-				this.loadingShow = 'hide';
+				this.addData();
+				this.newsitems[index].loadingShow = 'hide';
 			}, 2000);
 		},
 		//执行刷新
 		refresh(e) {
-			this.refreshShow = 'show';
-			this.refreshText = '正在刷新...';
+			var index = this.tabIndex;
+			this.newsitems[index].refreshShow = 'show';
+			this.newsitems[index].refreshText = '正在刷新...';
 			setTimeout(() => {
-				this.refreshShow = 'hide';
-				this.refreshText = '下拉可以刷新';
+				this.randomfn();
+				this.newsitems[index].refreshShow = 'hide';
+				this.newsitems[index].refreshText = '下拉可以刷新';
 			}, 1200);
 		},
 		//判断下拉刷新状态
