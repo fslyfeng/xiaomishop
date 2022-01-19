@@ -1,0 +1,122 @@
+<template>
+	<scroller>
+		<!-- 轮播图组件 -->
+		<sum-slider :swipers="swipers" />
+		<!-- 图标分类组件 -->
+		<sum-index-navs :resdata="indexNavs" />
+		<!-- 封装全局分割线 -->
+		<divider />
+		<!-- 大图广告位 -->
+		<sumOneAdv :item="oneAdv" />
+		<!-- 公共列表组件 -->
+		<div class="row w-100">
+			<block v-for="(item, index) in list" :key="index"><commonList :item="item" :index="index" /></block>
+		</div>
+	</scroller>
+</template>
+
+<script>
+import sumSlider from '@/components/index/nvue/sum-slider.nvue';
+import sumIndexNavs from '@/components/index/nvue/sum-index-navs.nvue';
+import divider from '@/components/common/divider.nvue';
+import sumOneAdv from '@/components/index/nvue/sum-one-adv.nvue';
+import commonList from '@/components/common/common-list.nvue';
+//获取当前窗口对象
+const currentWebview = plus.webview.currentWebview();
+export default {
+	components: {
+		sumSlider,
+		sumIndexNavs,
+		divider,
+		sumOneAdv,
+		commonList
+	},
+	data() {
+		return {
+			swipers: [{ src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }, { src: '/static/images/demo/demo4.jpg' }],
+			indexNavs: [
+				{
+					src: '/static/images/indexnav/1.png',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/2.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/3.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/4.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/5.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/6.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/7.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/8.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/9.gif',
+					name: '新品分类'
+				},
+				{
+					src: '/static/images/indexnav/10.gif',
+					name: '新品分类'
+				}
+			],
+			oneAdv: {
+				cover: '/static/images/demo/demo4.jpg',
+				title: '每日精选'
+			},
+			list: [
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1299,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1599,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1699,
+					pprice: 1199
+				}
+			]
+		};
+	},
+	created() {
+		//监听当前端口显示
+		currentWebview.addEventListener('show', e => {
+			console.log('indexShow');
+		});
+	},
+	beforeDestroy() {
+		//移除监听事件
+		currentWebview.addEventListener('show', e => {});
+	},
+	methods: {}
+};
+</script>
+<style src="@/common/zcm-main-nvue.css"></style>
+<style></style>
