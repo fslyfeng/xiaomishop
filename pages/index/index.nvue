@@ -27,9 +27,7 @@
 						<sum-one-adv v-if="listItem.type === 'oneAdv'" :item="listItem.data" />
 						<!-- 公共列表组件 -->
 						<div class="w-100" v-if="listItem.type === 'list'">
-							<div class="p-2 border-bottom">
-								<text class="text-dark font-md font-weight">标题标题</text>
-							</div>
+							<div class="p-2 border-bottom"><text class="text-dark font-md font-weight">标题标题</text></div>
 							<div class="row w-100">
 								<block v-for="(item, index) in listItem.data" :key="index"><commonList :item="item" :index="index" /></block>
 							</div>
@@ -108,8 +106,15 @@ export default {
 		currentWebview.addEventListener('show', e => {
 			console.log('indexShow');
 		});
+
 		//生成随机数据
 		this.newsitems = this.randomfn();
+	},
+	//监听点击搜索框
+	onNavigationBarSearchInputClicked() {
+		uni.navigateTo({
+			url: '../search/search'
+		});
 	},
 	beforeDestroy() {
 		//移除监听事件
