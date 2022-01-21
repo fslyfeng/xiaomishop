@@ -13,6 +13,10 @@ export default {
 	},
 	computed: {
 		getStyle() {
+			if (!this.color) {
+				return `border:0;background:#F5F5F5`;
+			}
+
 			let color = {
 				borderColor: ['#EEA6AA', '#DD6A4B', '#98D5D8', '#9DBE93', '#BCCD99'],
 				background: ['#F8EAE9', '#FFBEC6', '#E8F6F6', '#E4F5E2', '#F2F6E8']

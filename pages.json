@@ -70,7 +70,7 @@
 
 		}
 	    ,{
-            "path" : "components/search/color-tag/color-tag",
+            "path" : "components/search/color-tag",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
