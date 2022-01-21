@@ -46,7 +46,13 @@ export default {
 			cate: [{ name: '拉杆套件' }, { name: '滑轮' }, { name: '合页' }, { name: '拉手' }]
 		};
 	},
-
+	onNavigationBarButtonTap(e) {
+		if (e.index === 0) {
+			uni.navigateTo({
+				url: '../search-list/search-list'
+			});
+		}
+	},
 	methods: {}
 };
 </script>
