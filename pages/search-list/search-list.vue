@@ -11,13 +11,28 @@
 					<view class="iconfont icon-paixu-jiangxu line-h0" :class="item.status === 2 ? 'main-text-color' : ' text-light-muted'"></view>
 				</view>
 			</view>
-			<view class="flex-1 d-flex a-center j-center font-md"><text class="main-text-color">筛选</text></view>
+			<view class="flex-1 d-flex a-center j-center font-md"><text class="main-text-color" @tap="showDrawer">筛选</text></view>
 		</view>
+		<uni-drawer ref="showRight" mode="right" @close="closeDrawer()" :width="320">
+			<card headTitle="服务" :headBorderBottom="false" :headTitleWeight="false"><view>111</view></card>
+
+			<!-- 按钮 -->
+			<view class="d-flex position-fixed bottom-0 right-0 w-100 border-top border-light-secondary">
+				<view class="flex-1 main-bg-color text-white font-md py-2 text-center " hover-class="main-bg-hover-color">确定</view>
+				<view class="flex-1 font-md py-2 text-center" hover-class="bg-light-secondary">重置</view>
+			</view>
+		</uni-drawer>
 	</view>
 </template>
 
 <script>
+import uniDrawer from '@/components/uni_modules/uni-drawer/components/uni-drawer/uni-drawer.vue';
+import card from '@/components/common/card.vue';
 export default {
+	components: {
+		uniDrawer,
+		card
+	},
 	data() {
 		return {
 			screen: {
@@ -27,6 +42,12 @@ export default {
 		};
 	},
 	methods: {
+		showDrawer() {
+			this.$refs.showRight.open();
+		},
+		closeDrawer() {
+			this.$refs.showRight.close();
+		},
 		changeScreen(index) {
 			//判断当前点击是否已经是激活状态
 			let oldIndex = this.screen.currentIndex;
