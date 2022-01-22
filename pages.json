@@ -101,7 +101,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "components/search-list/search-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	// 全局配置
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

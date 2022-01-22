@@ -27,6 +27,8 @@
 				<view class="flex-1 font-md py-2 text-center" hover-class="bg-light-secondary">重置</view>
 			</view>
 		</uni-drawer>
+		<!-- 列表 -->
+		<block v-for="(item, index) in list" :key="index"><search-list :item="item" :index="index"></search-list></block>
 	</view>
 </template>
 
@@ -34,14 +36,68 @@
 import uniDrawer from '@/components/uni_modules/uni-drawer/components/uni-drawer/uni-drawer.vue';
 import card from '@/components/common/card.vue';
 import zcmRadioGroup from '@/components/common/radio-group.vue';
+import price from '@/components/common/price.vue';
+import searchList from '@/components/search-list/search-list.vue';
 export default {
 	components: {
 		uniDrawer,
 		card,
-		zcmRadioGroup
+		zcmRadioGroup,
+		price,
+		searchList
 	},
 	data() {
 		return {
+			list: [
+				{
+					title: '不锈钢拉杆',
+					titlepic: '/static/images/demo/demo6.jpg',
+					desc: '产品简介|产品简介|产品简介|产品简介|产品简介',
+					pprice: '1200',
+					comment_num: '1000 条评论',
+					good_num: '98%'
+				},
+				{
+					title: '不锈钢拉杆',
+					titlepic: '/static/images/demo/demo6.jpg',
+					desc: '产品简介|产品简介|产品简介|产品简介|产品简介',
+					pprice: '1200',
+					comment_num: '1000 条评论',
+					good_num: '98%'
+				},
+				{
+					title: '不锈钢拉杆',
+					titlepic: '/static/images/demo/demo6.jpg',
+					desc: '产品简介|产品简介|产品简介|产品简介|产品简介',
+					pprice: '1200',
+					comment_num: '1000 条评论',
+					good_num: '98%'
+				},
+				{
+					title: '不锈钢拉杆',
+					titlepic: '/static/images/demo/demo6.jpg',
+					desc: '产品简介|产品简介|产品简介|产品简介|产品简介',
+					pprice: '1200',
+					comment_num: '1000 条评论',
+					good_num: '98%'
+				},
+				{
+					title: '不锈钢拉杆',
+					titlepic: '/static/images/demo/demo6.jpg',
+					desc: '产品简介|产品简介|产品简介|产品简介|产品简介',
+					pprice: '1200',
+					comment_num: '1000 条评论',
+					good_num: '98%'
+				},
+				{
+					title: '不锈钢拉杆',
+					titlepic: '/static/images/demo/demo6.jpg',
+					desc: '产品简介|产品简介|产品简介|产品简介|产品简介',
+					pprice: '1200',
+					comment_num: '1000 条评论',
+					good_num: '98%'
+				}
+			],
 			screen: {
 				currentIndex: 0,
 				list: [{ name: '综合', status: 1 }, { name: '销量', status: 0 }, { name: '价格', status: 0 }]
