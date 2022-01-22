@@ -18,11 +18,7 @@
 		<uni-drawer ref="showRight" mode="right" @close="closeDrawer()" :width="320">
 			<card headTitle="服务" :headBorderBottom="false" :headTitleWeight="false">
 				<!-- 单选按钮组 -->
-				<view class="row">
-					<view class="span24-8 px-2 mb-2"><view class="rounded py-1 bg-light-secondary text-center radio-active border">按钮</view></view>
-					<view class="span24-8 px-2 mb-2"><view class="rounded px-2 py-1 bg-light-secondary text-center border">按钮</view></view>
-					<view class="span24-8 px-2 mb-2"><view class="rounded px-2 py-1 bg-light-secondary text-center border">按钮</view></view>
-				</view>
+				<zcm-radio-group :label="label" :selected.sync="label.selected"></zcm-radio-group>
 			</card>
 
 			<!-- 按钮 -->
@@ -37,16 +33,35 @@
 <script>
 import uniDrawer from '@/components/uni_modules/uni-drawer/components/uni-drawer/uni-drawer.vue';
 import card from '@/components/common/card.vue';
+import zcmRadioGroup from '@/components/common/radio-group.vue';
 export default {
 	components: {
 		uniDrawer,
-		card
+		card,
+		zcmRadioGroup
 	},
 	data() {
 		return {
 			screen: {
 				currentIndex: 0,
 				list: [{ name: '综合', status: 1 }, { name: '销量', status: 0 }, { name: '价格', status: 0 }]
+			},
+			label: {
+				selected: 0,
+				list: [
+					{
+						name: '选项一'
+					},
+					{
+						name: '选项二'
+					},
+					{
+						name: '选项三'
+					},
+					{
+						name: '选项四'
+					}
+				]
 			}
 		};
 	},
