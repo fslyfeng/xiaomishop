@@ -13,8 +13,17 @@
 			</view>
 			<view class="flex-1 d-flex a-center j-center font-md"><text class="main-text-color" @tap="showDrawer">筛选</text></view>
 		</view>
+		<!-- 抽屉 -->
+
 		<uni-drawer ref="showRight" mode="right" @close="closeDrawer()" :width="320">
-			<card headTitle="服务" :headBorderBottom="false" :headTitleWeight="false"><view>111</view></card>
+			<card headTitle="服务" :headBorderBottom="false" :headTitleWeight="false">
+				<!-- 单选按钮组 -->
+				<view class="row">
+					<view class="span24-8 px-2 mb-2"><view class="rounded py-1 bg-light-secondary text-center radio-active border">按钮</view></view>
+					<view class="span24-8 px-2 mb-2"><view class="rounded px-2 py-1 bg-light-secondary text-center border">按钮</view></view>
+					<view class="span24-8 px-2 mb-2"><view class="rounded px-2 py-1 bg-light-secondary text-center border">按钮</view></view>
+				</view>
+			</card>
 
 			<!-- 按钮 -->
 			<view class="d-flex position-fixed bottom-0 right-0 w-100 border-top border-light-secondary">
@@ -66,4 +75,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.radio-active {
+	background: #fce0d5 !important;
+	color: #eb7320 !important;
+	border-color: #eb7320 !important;
+}
+</style>
