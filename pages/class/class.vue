@@ -1,5 +1,6 @@
 <template>
 	<view class="d-flex border-top border-light-secondary" style="height: 100%;box-sizing:border-box ;">
+		<loading :show="showLoading"></loading>
 		<scroll-view id="leftScroll" scroll-y="true" style="flex: 1;height: 100%;" class="border-right border-light-secondary" :scroll-top="leftScrollTop">
 			<view
 				class="border-bottom border-light-secondary py-1 left-scroll-item"
@@ -26,6 +27,7 @@
 export default {
 	data() {
 		return {
+			showLoading: true,
 			//当前选中的分类
 			activeIndex: 0,
 			cate: [],
@@ -109,6 +111,10 @@ export default {
 					this.list[i].list.push({ src: '/static/images/demo/list/5.jpg', name: `分类${i}-商品${j}` });
 				}
 			}
+			//加载数据成功后隐藏动画
+			this.$nextTick(() => {
+				this.showLoading = false;
+			});
 		},
 		//点击左边分类
 		changeCate(index) {
