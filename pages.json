@@ -39,7 +39,31 @@
 
 		},
 		{
-			"path": "pages/class/class"
+			"path": "pages/class/class",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"searchInput": {
+							"align": "left",
+							"backgroundColor": "#F7F7F7",
+							"borderRadius": "4px",
+							"disabled": true,
+							"placeholder": "提示语",
+							"placeholderColor": "#cccccc"
+						},
+						"buttons": [{
+							"color": "#989898",
+							"colorPressed": "#FD6801",
+							"float": "right",
+							"fontSize": "22px",
+							"fontSrc": "/static/font/iconfont.ttf",
+							"text": "\ue67a"
+						}]
+					}
+				}
+			}
 		},
 		{
 			"path": "pages/my/my"
@@ -100,17 +124,15 @@
 				}
 			}
 
+		}, {
+			"path": "components/search-list/search-list",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "components/search-list/search-list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	// 全局配置
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -36,14 +36,12 @@
 import uniDrawer from '@/components/uni_modules/uni-drawer/components/uni-drawer/uni-drawer.vue';
 import card from '@/components/common/card.vue';
 import zcmRadioGroup from '@/components/common/radio-group.vue';
-import price from '@/components/common/price.vue';
 import searchList from '@/components/search-list/search-list.vue';
 export default {
 	components: {
 		uniDrawer,
 		card,
 		zcmRadioGroup,
-		price,
 		searchList
 	},
 	data() {
