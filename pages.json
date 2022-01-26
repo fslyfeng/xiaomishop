@@ -131,6 +131,21 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/detail/detail",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"type": "transparent",
+						"buttons": [{
+							"type": "menu"
+						}]
+					}
+				}
+			}
+
 		}
 	],
 	// 全局配置
