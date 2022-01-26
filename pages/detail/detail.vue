@@ -8,6 +8,11 @@
 		<!-- 滚动商品特性 w170*h100 -->
 		<scroll-attrs :baseAttrs="baseAttrs"></scroll-attrs>
 		<!-- 属性选择 -->
+		<view class="p-2">
+			<uni-tag text="标签" type="primary" class="m-1"></uni-tag>
+			<uni-tag text="标签" type="error" :circle="true" class="m-1"></uni-tag>
+		</view>
+
 		<!-- 横向滚动评论 -->
 		<!-- 商品详情 -->
 		<!-- 热门推荐 -->
@@ -19,6 +24,7 @@ import swiperImage from '@/components/index/swiper-image.vue';
 import price from '@/components/common/price.vue';
 import baseInfo from '@/components/detail/base-info.vue';
 import scrollAttrs from '@/components/detail/scroll-attrs.vue';
+
 export default {
 	components: { swiperImage, baseInfo, scrollAttrs },
 	data() {
@@ -84,4 +90,19 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.chat-custom-right {
+	flex: 1;
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+.chat-custom-text {
+	font-size: 12px;
+	color: #999;
+}
+</style>

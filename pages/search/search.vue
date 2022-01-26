@@ -23,12 +23,11 @@
 <script>
 import card from '@/components/common/card.vue';
 import colorTag from '@/components/search/color-tag.vue';
-import uniListItem from '@/components/uni_modules/uni-list/components/uni-list-item/uni-list-item.vue';
+
 export default {
 	components: {
 		card,
-		colorTag,
-		uniListItem
+		colorTag
 	},
 	data() {
 		return {
