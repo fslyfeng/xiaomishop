@@ -92,14 +92,8 @@
 				}
 			}
 
-		}, {
-			"path": "components/search/color-tag",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
+		},
+		{
 			"path": "pages/search-list/search-list",
 			"style": {
 				"app-plus": {
@@ -123,15 +117,8 @@
 					}
 				}
 			}
-
-		}, {
-			"path": "components/search-list/search-list",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
+		},
+		{
 			"path": "pages/detail/detail",
 			"style": {
 				"app-plus": {

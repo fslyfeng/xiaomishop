@@ -1,15 +1,13 @@
 <template>
+	<!-- 商品详情页面 -->
 	<view>
-		<!-- 商品详情页面 -->
 		<!-- 商品详情大图 -->
 		<swiper-image :resdata="banners" height="750" preview></swiper-image>
 		<!-- 基础详情 -->
-		<view class="p-2">
-			<view class="font-lg">{{ detail.title }}</view>
-			<view class="font text-light-muted mb-3 line-h-sm">{{ detail.desc }}</view>
-			<price priceSize="font-lg" unitSize="font">{{ detail.pprice }}</price>
-		</view>
-		<!-- 滚动商品特性 -->
+		<base-info :detail="detail"></base-info>
+		<!-- 滚动商品特性 w170*h100 -->
+		<scroll-attrs :baseAttrs="baseAttrs"></scroll-attrs>
+		<!-- 属性选择 -->
 		<!-- 横向滚动评论 -->
 		<!-- 商品详情 -->
 		<!-- 热门推荐 -->
@@ -19,8 +17,10 @@
 <script>
 import swiperImage from '@/components/index/swiper-image.vue';
 import price from '@/components/common/price.vue';
+import baseInfo from '@/components/detail/base-info.vue';
+import scrollAttrs from '@/components/detail/scroll-attrs.vue';
 export default {
-	components: { swiperImage, price },
+	components: { swiperImage, baseInfo, scrollAttrs },
 	data() {
 		return {
 			banners: [
@@ -50,7 +50,34 @@ export default {
 				title: '多功能电动直升机',
 				desc: '内置功格兰场16W洗衣干衣机、内置功格兰场16W洗衣干衣机、内置功格兰场16W洗衣干衣机、内置功格兰场16W洗衣干衣机',
 				pprice: 3299
-			}
+			},
+			baseAttrs: [
+				{
+					icon: 'icon-cpu',
+					title: '产品颜色',
+					desc: '灰色'
+				},
+				{
+					icon: 'icon-cpu',
+					title: '产品颜色',
+					desc: '灰色'
+				},
+				{
+					icon: 'icon-cpu',
+					title: '产品颜色',
+					desc: '灰色'
+				},
+				{
+					icon: 'icon-cpu',
+					title: '产品颜色',
+					desc: '灰色'
+				},
+				{
+					icon: 'icon-cpu',
+					title: '产品颜色',
+					desc: '灰色'
+				}
+			]
 		};
 	},
 	methods: {}
