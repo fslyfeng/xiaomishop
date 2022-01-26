@@ -1,10 +1,23 @@
 <template>
-	<view class="d-flex main-text-color font-md line-h">
-		<text class="a-self-start font-sm">¥</text>
+	<view class="d-flex main-text-color line-h" :class="priceSize">
+		<text class="a-self-start" :class="unitSize">¥</text>
 		<slot />
 	</view>
 </template>
 
-<script></script>
+<script>
+export default {
+	props: {
+		priceSize: {
+			type: String,
+			default: 'font-md'
+		},
+		unitSize: {
+			type: String,
+			default: 'font-sm'
+		}
+	}
+};
+</script>
 
 <style></style>
