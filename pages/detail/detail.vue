@@ -15,9 +15,17 @@
 
 		<!-- 横向滚动评论 -->
 		<!-- 商品详情 -->
-		<view class="py-4" style="background:#FFF; padding:20rpx;"><rich-text :nodes="nodes"></rich-text></view>
-		<view class="py-4" style="width: 750upx;height: 750upx;"><rich-text :nodes="strings"></rich-text></view>
+		<view class="py-4">
+			<rich-text :nodes="nodes"></rich-text>
+			<rich-text :nodes="strings"></rich-text>
+		</view>
+
 		<!-- 热门推荐 -->
+		<card headTitle="热门推荐" :headTitleWeight="false">
+			<view class="row j-sb">
+				<block v-for="(item, index) in hotList" :key="index"><commonList :item="item" :index="index"></commonList></block>
+			</view>
+		</card>
 	</view>
 </template>
 
@@ -26,9 +34,11 @@ import swiperImage from '@/components/index/swiper-image.vue';
 import price from '@/components/common/price.vue';
 import baseInfo from '@/components/detail/base-info.vue';
 import scrollAttrs from '@/components/detail/scroll-attrs.vue';
+import card from '@/components/common/card.vue';
+import commonList from '@/components/common/common-list.vue';
 
 export default {
-	components: { swiperImage, baseInfo, scrollAttrs },
+	components: { swiperImage, baseInfo, scrollAttrs, card, commonList },
 	data() {
 		return {
 			//富文件加入商品详请
@@ -102,6 +112,29 @@ export default {
 					icon: 'icon-cpu',
 					title: '产品颜色',
 					desc: '灰色'
+				}
+			],
+			hotList: [
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1299,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1599,
+					pprice: 1199
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '米家空调',
+					desc: '产品编码',
+					oprice: 1699,
+					pprice: 1199
 				}
 			]
 		};
