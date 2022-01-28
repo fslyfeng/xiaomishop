@@ -22,10 +22,15 @@
 
 		<!-- 热门推荐 -->
 		<card headTitle="热门推荐" :headTitleWeight="false">
-			<view class="row j-sb">
+			<view
+				class="row j-sb
+			"
+			>
 				<block v-for="(item, index) in hotList" :key="index"><commonList :item="item" :index="index"></commonList></block>
 			</view>
 		</card>
+		<!-- 底部操作条 -->
+		<bottom-btn></bottom-btn>
 	</view>
 </template>
 
@@ -36,9 +41,17 @@ import baseInfo from '@/components/detail/base-info.vue';
 import scrollAttrs from '@/components/detail/scroll-attrs.vue';
 import card from '@/components/common/card.vue';
 import commonList from '@/components/common/common-list.vue';
+import bottomBtn from '@/components/detail/bootom-btn.vue';
 
 export default {
-	components: { swiperImage, baseInfo, scrollAttrs, card, commonList },
+	components: {
+		swiperImage,
+		baseInfo,
+		scrollAttrs,
+		card,
+		commonList,
+		bottomBtn
+	},
 	data() {
 		return {
 			//富文件加入商品详请
