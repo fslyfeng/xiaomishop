@@ -27,7 +27,7 @@
 			</view>
 
 			<!-- 图标分类 -->
-			<view class="d-flex a-center border-top">
+			<view class="d-flex a-center">
 				<view class="flex-1 d-flex flex-column a-center j-center py-3" hover-class="bg-light-secondary" v-for="i in 4" :key="i">
 					<view class="iconfont icon-cpu font-lg line-h"></view>
 					<view>侍付款</view>
@@ -38,9 +38,9 @@
 		<uni-list>
 			<uni-list-item :show-extra-icon="true" :extra-icon="{ color: '#FDBF2E', size: '22', type: 'contact' }" title="会员中心"></uni-list-item>
 			<uni-list-item :show-extra-icon="true" :extra-icon="{ color: '#FCBE2D', size: '22', type: 'shop' }" title="服务中心"></uni-list-item>
-			<uni-list-item :show-extra-icon="true" :extra-icon="{ color: '#9ED45A', size: '22', type: 'settings' }" title="更多功能"></uni-list-item>
+			<uni-list-item :show-extra-icon="true" :extra-icon="{ color: '#9ED45A', size: '22', type: 'settings' }" title="更多功能" @click="navigate('class')"></uni-list-item>
 			<divider />
-			<uni-list-item :show-extra-icon="true" :extra-icon="{ color: '#4cd964', size: '22', type: 'gear' }" title="更多设置" @click=""></uni-list-item>
+			<uni-list-item :show-extra-icon="true" :extra-icon="{ color: '#4cd964', size: '22', type: 'gear' }" title="更多设置" to="/pages/user-set/user-set"></uni-list-item>
 		</uni-list>
 	</view>
 </template>
@@ -48,17 +48,13 @@
 <script>
 import card from '@/components/common/card.vue';
 export default {
+	components: {
+		card
+	},
 	data() {
 		return {};
 	},
-	methods: {
-		navigate(path) {
-			if (!path) return;
-			uni.navigateTo({
-				url: `/pages/${path}/${path}`
-			});
-		}
-	}
+	methods: {}
 };
 </script>
 

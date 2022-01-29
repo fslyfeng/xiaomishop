@@ -140,7 +140,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/user-set/user-set",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户设置"
+              
+            }
+            
+        }
+    ],
 	// 全局配置
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

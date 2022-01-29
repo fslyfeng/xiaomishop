@@ -7,7 +7,7 @@
 			</slot>
 		</view>
 		<!-- 主体 body-->
-		<view :class="getBodyClass">
+		<view :class="getBodyClass" :style="bodyStyle">
 			<image v-if="bodyCover" :src="bodyCover" mode="widthFix"></image>
 			<slot />
 		</view>
@@ -17,6 +17,7 @@
 <script>
 export default {
 	props: {
+		bodyStyle: String,
 		//头部标题
 		headTitle: String,
 		//封面图
