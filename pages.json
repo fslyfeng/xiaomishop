@@ -139,17 +139,22 @@
 				}
 			}
 
+		}, {
+			"path": "pages/user-set/user-set",
+			"style": {
+				"navigationBarTitleText": "用户设置"
+
+			}
+
+		}, {
+			"path": "pages/user-userinfo/user-userinfo",
+			"style": {
+				"navigationBarTitleText": "修改用户资料"
+
+			}
+
 		}
-	    ,{
-            "path" : "pages/user-set/user-set",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "用户设置"
-              
-            }
-            
-        }
-    ],
+	],
 	// 全局配置
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

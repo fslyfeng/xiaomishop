@@ -36,7 +36,12 @@
 		</card>
 		<divider />
 		<uni-list>
-			<uni-list-item :show-extra-icon="true" :extra-icon="{ color: '#FDBF2E', size: '22', type: 'contact' }" title="会员中心"></uni-list-item>
+			<uni-list-item
+				:show-extra-icon="true"
+				:extra-icon="{ color: '#FDBF2E', size: '22', type: 'contact' }"
+				title="会员中心"
+				to="/pages/user-userinfo/user-userinfo"
+			></uni-list-item>
 			<uni-list-item :show-extra-icon="true" :extra-icon="{ color: '#FCBE2D', size: '22', type: 'shop' }" title="服务中心"></uni-list-item>
 			<uni-list-item :show-extra-icon="true" :extra-icon="{ color: '#9ED45A', size: '22', type: 'settings' }" title="更多功能" @click="navigate('class')"></uni-list-item>
 			<divider />
