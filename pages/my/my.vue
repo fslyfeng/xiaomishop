@@ -6,7 +6,8 @@
 			<image src="../../static/images/bg.jpg" style="height: 320rpx;width: 100%;"></image>
 			<view class="d-flex a-center position-absolute left-0 right-0" style="bottom: 50rpx;">
 				<image src="../../static/images/demo/demo6.jpg" style="height: 145rpx;width: 145rpx;border: 5rpx solid;" class="rounded-circle border-light ml-4"></image>
-				<view class="ml-2 text-white font-md">用户名称</view>
+				<navigator url="../login/login"><view class="ml-2 text-white font-md" @>用户名称</view></navigator>
+				
 				<view
 					class="d-flex a-center j-center a-self-end ml-auto px-2"
 					style="height: 70rpx;background: #FFD43F;color: #CC4A00;border-top-left-radius: 40rpx;border-bottom-left-radius: 40rpx;"
