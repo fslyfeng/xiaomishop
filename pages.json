@@ -163,6 +163,13 @@
 				}
 			}
 
+		}, {
+			"path": "pages/msg-list/msg-list",
+			"style": {
+				"navigationBarTitleText": "消息列表"
+
+			}
+
 		}
 	],
 	// 全局配置

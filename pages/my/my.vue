@@ -2,12 +2,15 @@
 	<view>
 		<!-- 头部 -->
 		<view class="position-relative d-flex a-center " style="height: 320rpx;">
-			<view class="iconfont icon-xiaoxi position-absolute text-white" style="font-size: 50rpx;top: 75rpx;right:20rpx;z-index: 100;"></view>
+			<!-- 消息列表 -->
+			<navigator url="../msg-list/msg-list">
+				<view class="iconfont icon-xiaoxi position-absolute text-white" style="font-size: 50rpx;top: 75rpx;right:20rpx;z-index: 100;"></view>
+			</navigator>
 			<image src="../../static/images/bg.jpg" style="height: 320rpx;width: 100%;"></image>
 			<view class="d-flex a-center position-absolute left-0 right-0" style="bottom: 50rpx;">
 				<image src="../../static/images/demo/demo6.jpg" style="height: 145rpx;width: 145rpx;border: 5rpx solid;" class="rounded-circle border-light ml-4"></image>
 				<navigator url="../login/login"><view class="ml-2 text-white font-md" @>用户名称</view></navigator>
-				
+
 				<view
 					class="d-flex a-center j-center a-self-end ml-auto px-2"
 					style="height: 70rpx;background: #FFD43F;color: #CC4A00;border-top-left-radius: 40rpx;border-bottom-left-radius: 40rpx;"
