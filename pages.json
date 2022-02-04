@@ -170,6 +170,13 @@
 
 			}
 
+		}, {
+			"path": "pages/msg-detail/msg-detail",
+			"style": {
+				"navigationBarTitleText": "消息详情"
+
+			}
+
 		}
 	],
 	// 全局配置
