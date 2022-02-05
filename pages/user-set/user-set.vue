@@ -24,7 +24,7 @@ export default {
 				{
 					lable: '关于商城',
 					value: [
-						{ title: '关于商城', path: '/pages/class/class' },
+						{ title: '关于商城', path: '/pages/about/about' },
 						{ title: '意见反馈', path: '' },
 						{ title: '协议规则', path: '' },
 						{ title: '资质证件', path: '' },

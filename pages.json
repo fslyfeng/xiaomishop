@@ -177,6 +177,13 @@
 
 			}
 
+		}, {
+			"path": "pages/about/about",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+
+			}
+
 		}
 	],
 	// 全局配置
