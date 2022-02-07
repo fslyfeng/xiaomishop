@@ -1,5 +1,5 @@
 <template>
-	<div style="display: flex;flex-direction: column;">
+	<div>
 		<!-- 横向滚动顶部选顶卡 -->
 		<sum-tabbar :tabIndex="tabIndex" :tabBars="tabBars" @tabchange="tabChange"></sum-tabbar>
 
@@ -56,8 +56,8 @@
 				</template>
 
 				<!-- 上拉加载 -->
-				<loading class="w-100 flex-row j-center a-center" style="height: 70px;" @loading="onLoading" :display="list.loadingShow">
-					<text class="font-sm text-muted">Loading...</text>
+				<loading class="w-100 j-center a-center" style="height: 70px;" @loading="onLoading" :display="list.loadingShow">
+					<text class="text-muted font-sm">Loading...</text>
 				</loading>
 			</list>
 		</slider>
@@ -138,14 +138,14 @@ export default {
 			//初始化页面
 			this.newsitems = this.setNewsitems(data);
 		},
-		//加载更多数据
-		async addData(callback = false) {
+		//加载数据、刷新数据
+		async addData(callback = false, refresh = false) {
 			//拿到当前索引
 			let e = this.tabIndex;
 			//拿到当前分类id
 			let id = this.tabBars[e].id;
 			//拿到当前分类页数
-			let page = Math.ceil(this.newsitems[e].data.length / 5) + 1;
+			let page = !refresh ? Math.ceil(this.newsitems[e].data.length / 5) + 1 : 1;
 
 			let [error, result] = await uni.request({
 				url: 'http://ceshi3.dishait.cn/api/index_category/' + id + '/data/' + page,
@@ -168,7 +168,8 @@ export default {
 			//成功
 			let data = result.data.data;
 			//赋值渲染
-			this.newsitems[e].data = [...this.newsitems[e].data, ...data];
+			this.newsitems[e].data = !refresh ? [...this.newsitems[e].data, ...data] : [...data];
+
 			//执行回调函数
 			if (typeof callback === 'function') {
 				callback();
@@ -208,41 +209,43 @@ export default {
 			this.tabIndex = e.index;
 			this.addData();
 		},
-		//上拉加载事件
+		// 上拉加载事件
 		onLoading() {
-			//存储当前索引
+			// 存储当前索引
 			var index = this.tabIndex;
 			this.newsitems[index].loadingShow = 'show';
-			//如果没有更多
-			if (this.newsitems[index].loadingText === '没有更多了') {
-				uni.showToast({
-					title: '没有更多了',
-					icon: 'none'
-				});
 
-				return (this.newsitems[index].loadingShow = 'hide');
-			}
-			//加载数据
-			this.addData(() => {
-				uni.showToast({
-					title: '加载成功',
-					icon: 'none'
-				});
+			// 没有更多了
+			if (this.newsitems[index].loadingText === '没有更多了') {
+				uni.showToast({ title: '没有更多了', icon: 'none' });
 				this.newsitems[index].loadingShow = 'hide';
+				return;
+			}
+			// 加载数据
+			this.addData(() => {
+				uni.showToast({ title: '加载成功', icon: 'none' });
+				this.newsitems[index].loadingShow = 'hide';
+				//需实机测试上接刷实
+				// if (this.newsitems[index].loadingText === '没有更多了') {
+				// 	uni.showToast({ title: '没有更多了', icon: 'none' });
+				// 	this.newsitems[index].loadingShow = 'hide';
+				// }
 			});
 		},
-		//执行刷新
+		// 执行刷新
 		refresh(e) {
+			// 存储当前索引
 			var index = this.tabIndex;
 			this.newsitems[index].refreshShow = 'show';
 			this.newsitems[index].refreshText = '正在刷新...';
-			setTimeout(() => {
-				this.randomfn();
+			// 请求刷新数据
+			this.addData(() => {
+				uni.showToast({ title: '下拉刷新成功', icon: 'none' });
 				this.newsitems[index].refreshShow = 'hide';
 				this.newsitems[index].refreshText = '下拉可以刷新';
-			}, 1200);
+			}, true);
 		},
-		//判断下拉刷新状态
+		// 判断下拉刷新状态
 		pullingdown(e) {
 			this.refreshText = e.pullingDistance > e.viewHeight ? '释放就能刷新咯' : '下拉可以刷新';
 		}
