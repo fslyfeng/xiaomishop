@@ -1,7 +1,7 @@
 <template>
 	<div class="w-100" style="height: 75px;">
 		<scroller class="w-100 flex-row" style="height: 75px;" :show-scrollbar="false" scroll-direction="horizontal">
-			<div style="height: 75px; width: 120px; " class="a-center j-center" v-for="(item, index) in tabBars" :key="index" @click="change(index)" :ref="`tab${index}`">
+			<div style="height: 75px; width: 150px; " class="a-center j-center" v-for="(item, index) in tabBars" :key="index" @click="change(index)" :ref="`tab${index}`">
 				<text
 					style="height: 75px;line-height: 75px;border-bottom-width: 5px;border-style: solid;"
 					class="font-md"

@@ -86,18 +86,7 @@ export default {
 	data() {
 		return {
 			tabIndex: 0,
-			tabBars: [
-				{
-					name: '关注',
-					id: 'guanzhu',
-					template: 'index'
-				},
-				{
-					name: '推荐',
-					id: 'tuijian',
-					template: 'specitl'
-				}
-			],
+			tabBars: [],
 			newsitems: []
 		};
 	},
@@ -107,8 +96,8 @@ export default {
 			console.log('indexShow');
 		});
 
-		//生成随机数据
-		this.newsitems = this.randomfn();
+		// 初始化事件
+		this.__init();
 	},
 	//监听点击搜索框
 	onNavigationBarSearchInputClicked() {
@@ -121,6 +110,34 @@ export default {
 		currentWebview.addEventListener('show', e => {});
 	},
 	methods: {
+		//初始化
+		async __init() {
+			// Await
+			let [error, result] = await uni.request({
+				url: 'http://ceshi3.dishait.cn/api/index_category/data',
+				method: 'GET'
+			});
+			//错误
+			if (error) {
+				return uni.showToast({
+					title: error.errMsg,
+					icon: 'none'
+				});
+			}
+			//失败
+			if (result.statusCode !== 200) {
+				return uni.showToast({
+					title: result.data.msg,
+					icon: 'none'
+				});
+			}
+			//成功
+			let data = result.data.data;
+			//初始化tabbars
+			this.tabBars = data.category;
+			//初始化页面
+			this.newsitems = this.setNewsitems(data);
+		},
 		//加载更多模拟数据
 		addData() {
 			//拿到当前索引
@@ -151,12 +168,7 @@ export default {
 						{ src: '../../static/images/indexnav/2.gif', name: '新品发布' },
 						{ src: '../../static/images/indexnav/3.gif', name: '新品发布' },
 						{ src: '../../static/images/indexnav/4.gif', name: '新品发布' },
-						{ src: '../../static/images/indexnav/5.gif', name: '新品发布' },
-						{ src: '../../static/images/indexnav/6.gif', name: '新品发布' },
-						{ src: '../../static/images/indexnav/7.gif', name: '新品发布' },
-						{ src: '../../static/images/indexnav/8.gif', name: '新品发布' },
-						{ src: '../../static/images/indexnav/9.gif', name: '新品发布' },
-						{ src: '../../static/images/indexnav/10.gif', name: '新品发布' }
+						{ src: '../../static/images/indexnav/5.gif', name: '新品发布' }
 					]
 				},
 				{
@@ -195,7 +207,8 @@ export default {
 			];
 			this.newsitems[e].data = [...this.newsitems[e].data, ...arr];
 		},
-		randomfn() {
+		// 初始化页面
+		setNewsitems(e) {
 			let ary = [];
 			//拿到 tabbars 的长度，根据长度生成页面
 			let tablength = this.tabBars.length;
@@ -206,72 +219,9 @@ export default {
 					loadingShow: 'hide',
 					data: []
 				};
-				//给页面添加数据
+				//给首面页面添加数据
 				if (this.tabBars[i].template === 'index') {
-					aryItem.data = [
-						{
-							type: 'swiper',
-							data: [
-								{
-									src: '../../static/images/demo/demo4.jpg'
-								},
-								{
-									src: '../../static/images/demo/demo4.jpg'
-								},
-								{
-									src: '../../static/images/demo/demo4.jpg'
-								}
-							]
-						},
-						{
-							type: 'indexnavs',
-							data: [
-								{ src: '../../static/images/indexnav/1.png', name: '新品发布' },
-								{ src: '../../static/images/indexnav/2.gif', name: '新品发布' },
-								{ src: '../../static/images/indexnav/3.gif', name: '新品发布' },
-								{ src: '../../static/images/indexnav/4.gif', name: '新品发布' },
-								{ src: '../../static/images/indexnav/5.gif', name: '新品发布' },
-								{ src: '../../static/images/indexnav/6.gif', name: '新品发布' },
-								{ src: '../../static/images/indexnav/7.gif', name: '新品发布' },
-								{ src: '../../static/images/indexnav/8.gif', name: '新品发布' },
-								{ src: '../../static/images/indexnav/9.gif', name: '新品发布' },
-								{ src: '../../static/images/indexnav/10.gif', name: '新品发布' }
-							]
-						},
-						{
-							type: 'oneAdv',
-							data: {
-								title: '每日精选',
-								cover: '/static/images/demo/demo4.jpg'
-							}
-						},
-						{
-							type: 'list',
-							data: [
-								{
-									cover: '/static/images/demo/list/1.jpg',
-									title: '米家空调',
-									desc: '产品编码',
-									oprice: 1299,
-									pprice: 1199
-								},
-								{
-									cover: '/static/images/demo/list/1.jpg',
-									title: '米家空调',
-									desc: '产品编码',
-									oprice: 1599,
-									pprice: 1199
-								},
-								{
-									cover: '/static/images/demo/list/1.jpg',
-									title: '米家空调',
-									desc: '产品编码',
-									oprice: 1699,
-									pprice: 1199
-								}
-							]
-						}
-					];
+					aryItem.data = e.data;
 				}
 				ary.push(aryItem);
 			}
