@@ -139,7 +139,7 @@ export default {
 			this.newsitems = this.setNewsitems(data);
 		},
 		//加载更多数据
-		async addData() {
+		async addData(callback = false) {
 			//拿到当前索引
 			let e = this.tabIndex;
 			//拿到当前分类id
@@ -167,8 +167,17 @@ export default {
 			}
 			//成功
 			let data = result.data.data;
-
+			//赋值渲染
 			this.newsitems[e].data = [...this.newsitems[e].data, ...data];
+			//执行回调函数
+			if (typeof callback === 'function') {
+				callback();
+			}
+			//没有更多数据
+			if (data.length < 5) {
+				this.newsitems[e].loadingText = '没有更多了';
+				return;
+			}
 		},
 		// 初始化页面
 		setNewsitems(e) {
@@ -204,11 +213,23 @@ export default {
 			//存储当前索引
 			var index = this.tabIndex;
 			this.newsitems[index].loadingShow = 'show';
-			setTimeout(() => {
-				//加载数据
-				this.addData();
+			//如果没有更多
+			if (this.newsitems[index].loadingText === '没有更多了') {
+				uni.showToast({
+					title: '没有更多了',
+					icon: 'none'
+				});
+
+				return (this.newsitems[index].loadingShow = 'hide');
+			}
+			//加载数据
+			this.addData(() => {
+				uni.showToast({
+					title: '加载成功',
+					icon: 'none'
+				});
 				this.newsitems[index].loadingShow = 'hide';
-			}, 2000);
+			});
 		},
 		//执行刷新
 		refresh(e) {
