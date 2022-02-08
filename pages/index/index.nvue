@@ -10,49 +10,53 @@
 				<refresh class="w-100 flex-row j-center a-center" style="height: 80px;" @refresh="refresh" @pullingdown="pullingdown" :display="list.refreshShow">
 					<text class="font-sm text-muted">{{ list.refreshText }}</text>
 				</refresh>
+				<template v-if="list.data.length > 0">
+					<!-- 首页模板 -->
+					<template v-if="tabBars[listIndex].template === 'index'">
+						<cell v-for="(listItem, ItemIndex) in list.data" :key="ItemIndex">
+							<!-- 轮播图组件 -->
+							<sum-slider v-if="listItem.type === 'swiper'" :swipers="listItem.data" />
+							<template v-if="listItem.type === 'indexnavs'">
+								<!-- 图标分类组件 -->
+								<sum-index-navs :resdata="listItem.data" />
+								<!-- 封装全局分割线 -->
+								<divider />
+							</template>
 
-				<!-- 首页模板 -->
-				<template v-if="tabBars[listIndex].template === 'index'">
-					<cell v-for="(listItem, ItemIndex) in list.data" :key="ItemIndex">
-						<!-- 轮播图组件 -->
-						<sum-slider v-if="listItem.type === 'swiper'" :swipers="listItem.data" />
-						<template v-if="listItem.type === 'indexnavs'">
-							<!-- 图标分类组件 -->
-							<sum-index-navs :resdata="listItem.data" />
-							<!-- 封装全局分割线 -->
-							<divider />
-						</template>
+							<!-- 大图广告位 -->
+							<sum-one-adv v-if="listItem.type === 'oneAdv'" :item="listItem.data" />
+							<!-- 公共列表组件 -->
+							<div class="w-100" v-if="listItem.type === 'list'">
+								<div class="p-2 border-bottom"><text class="text-dark font-md font-weight">标题标题</text></div>
+								<div class="row w-100">
+									<block v-for="(item, index) in listItem.data" :key="index"><commonList :item="item" :index="index" /></block>
+								</div>
+							</div>
+						</cell>
+					</template>
+					<!-- 专题页 -->
+					<template v-else-if="tabBars[listIndex].template === 'special'">
+						<cell v-for="(listItem, ItemIndex) in list.data" :key="ItemIndex">
+							<!-- 轮播图组件 -->
+							<sum-slider v-if="listItem.type === 'swiper'" :swipers="listItem.data" />
+							<template v-if="listItem.type === 'indexnavs'">
+								<!-- 图标分类组件 -->
+								<sum-index-navs :resdata="listItem.data" />
+								<!-- 封装全局分割线 -->
+								<divider />
+							</template>
 
-						<!-- 大图广告位 -->
-						<sum-one-adv v-if="listItem.type === 'oneAdv'" :item="listItem.data" />
-						<!-- 公共列表组件 -->
-						<div class="w-100" v-if="listItem.type === 'list'">
-							<div class="p-2 border-bottom"><text class="text-dark font-md font-weight">标题标题</text></div>
-							<div class="row w-100">
+							<!-- 大图广告位 -->
+							<sum-one-adv v-if="listItem.type === 'oneAdv'" :item="listItem.data" />
+							<!-- 公共列表组件 -->
+							<div class="row w-100" v-if="listItem.type === 'list'">
 								<block v-for="(item, index) in listItem.data" :key="index"><commonList :item="item" :index="index" /></block>
 							</div>
-						</div>
-					</cell>
+						</cell>
+					</template>
 				</template>
-				<!-- 专题页 -->
-				<template v-else-if="tabBars[listIndex].template === 'special'">
-					<cell v-for="(listItem, ItemIndex) in list.data" :key="ItemIndex">
-						<!-- 轮播图组件 -->
-						<sum-slider v-if="listItem.type === 'swiper'" :swipers="listItem.data" />
-						<template v-if="listItem.type === 'indexnavs'">
-							<!-- 图标分类组件 -->
-							<sum-index-navs :resdata="listItem.data" />
-							<!-- 封装全局分割线 -->
-							<divider />
-						</template>
-
-						<!-- 大图广告位 -->
-						<sum-one-adv v-if="listItem.type === 'oneAdv'" :item="listItem.data" />
-						<!-- 公共列表组件 -->
-						<div class="row w-100" v-if="listItem.type === 'list'">
-							<block v-for="(item, index) in listItem.data" :key="index"><commonList :item="item" :index="index" /></block>
-						</div>
-					</cell>
+				<template v-else>
+					<cell class="j-center a-center pt-5"><text class="font-md text-light-muted">暂无数据</text></cell>
 				</template>
 
 				<!-- 上拉加载 -->
@@ -151,6 +155,8 @@ export default {
 				url: 'http://ceshi3.dishait.cn/api/index_category/' + id + '/data/' + page,
 				method: 'GET'
 			});
+			console.log(result);
+
 			//错误
 			if (error) {
 				return uni.showToast({
