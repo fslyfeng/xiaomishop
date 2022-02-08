@@ -10,7 +10,7 @@
 				<refresh class="w-100 flex-row j-center a-center" style="height: 80px;" @refresh="refresh" @pullingdown="pullingdown" :display="list.refreshShow">
 					<text class="font-sm text-muted">{{ list.refreshText }}</text>
 				</refresh>
-				<template v-if="list.data.length > 0">
+				<template v-if="list.data.length > 0 && list.firstLoad === 'after'">
 					<!-- 首页模板 -->
 					<template v-if="tabBars[listIndex].template === 'index'">
 						<cell v-for="(listItem, ItemIndex) in list.data" :key="ItemIndex">
@@ -55,10 +55,14 @@
 						</cell>
 					</template>
 				</template>
-				<template v-else>
-					<cell class="j-center a-center pt-5"><text class="font-md text-light-muted">暂无数据</text></cell>
+				<!-- 加载中 -->
+				<template v-else-if="list.firstLoad === 'ing'">
+					<cell class="j-center a-center pt-5"><text class="font-sm text-light-muted">加载中...</text></cell>
 				</template>
-
+				<!-- 空数据显示 -->
+				<template v-else>
+					<cell class="j-center a-center pt-5"><text class="font-sm text-light-muted">暂无数据</text></cell>
+				</template>
 				<!-- 上拉加载 -->
 				<loading class="w-100 j-center a-center" style="height: 70px;" @loading="onLoading" :display="list.loadingShow">
 					<text class="text-muted font-sm">Loading...</text>
@@ -150,29 +154,24 @@ export default {
 			let id = this.tabBars[e].id;
 			//拿到当前分类页数
 			let page = !refresh ? Math.ceil(this.newsitems[e].data.length / 5) + 1 : 1;
+			//修改请求状态，首次加载中
+			if (page === 1 && this.newsitems[e].refreshShow === 'hide') {
+				this.newsitems[e].firstLoad = 'ing';
+			}
 
 			let [error, result] = await uni.request({
 				url: 'http://ceshi3.dishait.cn/api/index_category/' + id + '/data/' + page,
 				method: 'GET'
 			});
-			console.log(result);
 
-			//错误
-			if (error) {
-				return uni.showToast({
-					title: error.errMsg,
-					icon: 'none'
-				});
+			//修改请求状态，首次加载完成
+			if (page === 1 && this.newsitems[e].refreshShow === 'hide') {
+				this.newsitems[e].firstLoad = 'after';
 			}
-			//失败
-			if (result.statusCode !== 200) {
-				return uni.showToast({
-					title: result.data.msg,
-					icon: 'none'
-				});
-			}
+
 			//成功
 			let data = result.data.data;
+
 			//赋值渲染
 			this.newsitems[e].data = !refresh ? [...this.newsitems[e].data, ...data] : [...data];
 
@@ -192,11 +191,14 @@ export default {
 			//拿到 tabbars 的长度，根据长度生成页面
 			let tablength = this.tabBars.length;
 			for (let i = 0; i < tablength; i++) {
+				let firstLoad = i === 0 ? 'after' : 'before';
+
 				let aryItem = {
 					refreshShow: 'hide',
 					refreshText: '下拉刷新...',
 					loadingShow: 'hide',
-					data: []
+					data: [],
+					firstLoad: firstLoad
 				};
 				//给首面页面添加数据
 				if (this.tabBars[i].template === 'index') {
@@ -213,14 +215,15 @@ export default {
 		//监听横向滚动列表事件
 		sliderChange(e) {
 			this.tabIndex = e.index;
-			this.addData();
+			if (this.newsitems[this.tabIndex].firstLoad === 'before') {
+				this.addData();
+			}
 		},
 		// 上拉加载事件
 		onLoading() {
 			// 存储当前索引
 			var index = this.tabIndex;
 			this.newsitems[index].loadingShow = 'show';
-
 			// 没有更多了
 			if (this.newsitems[index].loadingText === '没有更多了') {
 				uni.showToast({ title: '没有更多了', icon: 'none' });
@@ -231,11 +234,6 @@ export default {
 			this.addData(() => {
 				uni.showToast({ title: '加载成功', icon: 'none' });
 				this.newsitems[index].loadingShow = 'hide';
-				//需实机测试上接刷实
-				// if (this.newsitems[index].loadingText === '没有更多了') {
-				// 	uni.showToast({ title: '没有更多了', icon: 'none' });
-				// 	this.newsitems[index].loadingShow = 'hide';
-				// }
 			});
 		},
 		// 执行刷新
