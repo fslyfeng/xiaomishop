@@ -1,9 +1,13 @@
 <template>
 	<view>
-		<swiper indicator-dots autoplay :interval="3000" :duration="1000" circular :style="getStyle">
-			<block v-for="(item, index) in resdata" :key="index">
+		<swiper indicator-dots autoplay :interval="3000" :duration="200" circular :style="getStyle">
+			<block v-for="(item,index) in resdata" :key="index">
 				<swiper-item>
-					<view class="swiper-item" @tap="event(item, index)"><image :src="item.src" lazy-load mode="aspectFit" :style="getStyle"></image></view>
+					<view class="swiper-item" @tap="event(item,index)">
+						<image :src="item.src" 
+						lazy-load
+						:style="getStyle"></image>
+					</view>
 				</swiper-item>
 			</block>
 		</swiper>
@@ -11,38 +15,43 @@
 </template>
 
 <script>
-export default {
-	props: {
-		resdata: Array,
-		height: {
-			type: String,
-			default: '350rpx'
+	export default {
+		props:{
+			resdata:[Array,Object],
+			height:{
+				type:String,
+				default:"350"
+			},
+			preview:{
+				type:Boolean,
+				default:false
+			}
 		},
-		preview: {
-			type: Boolean,
-			default: false
-		}
-	},
-	computed: {
-		getStyle() {
-			return `height:${this.height}rpx`;
+		computed: {
+			getStyle() {
+				return `height: ${this.height}rpx;`
+			},
+			getUrls(){
+				var urls = []
+				for (let v in this.resdata) {
+					urls.push(this.resdata[v].src)
+				}
+				return urls
+			}
 		},
-		getUrls() {
-			return this.resdata.map(v => v.src);
-		}
-	},
-	methods: {
-		event(item, index) {
-			if (this.preview) {
-				return uni.previewImage({
-					current: index,
-					urls: this.getUrls,
-					indicator: 'default'
-				});
+		methods:{
+			event(item,index){
+				if (this.preview) {
+					return uni.previewImage({
+						current:index,
+						urls:this.getUrls,
+						indicator:"default"
+					})
+				}
 			}
 		}
 	}
-};
 </script>
 
-<style></style>
+<style>
+</style>
