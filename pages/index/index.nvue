@@ -203,16 +203,17 @@ export default {
 			// 存储当前索引
 			var index = this.tabIndex;
 			this.newsitems[index].loadingShow = 'show';
-			// 没有更多了
-			if (this.newsitems[index].loadingText === '没有更多了') {
-				uni.showToast({ title: '没有更多了', icon: 'none' });
-				this.newsitems[index].loadingShow = 'hide';
-				return;
-			}
+
 			// 加载数据
 			this.addData(() => {
 				uni.showToast({ title: '加载成功', icon: 'none' });
 				this.newsitems[index].loadingShow = 'hide';
+				// 没有更多了
+				if (this.newsitems[index].loadingText === '没有更多了') {
+					uni.showToast({ title: '没有更多了', icon: 'none' });
+					this.newsitems[index].loadingShow = 'hide';
+					return;
+				}
 			});
 		},
 		// 执行刷新
