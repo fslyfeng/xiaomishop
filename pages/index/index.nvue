@@ -65,7 +65,7 @@
 				</template>
 				<!-- 上拉加载 -->
 				<loading class="w-100 j-center a-center" style="height: 70px;" @loading="onLoading" :display="list.loadingShow">
-					<text class="text-muted font-sm">Loading...</text>
+					<text class="text-muted font-md">Loading...</text>
 				</loading>
 			</list>
 		</slider>
@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import $H from '@/common/lib/request.js';
+
 import sumSlider from '@/components/index/nvue/sum-slider.nvue';
 import sumIndexNavs from '@/components/index/nvue/sum-index-navs.nvue';
 import divider from '@/components/common/divider.nvue';
@@ -120,31 +122,12 @@ export default {
 	methods: {
 		//初始化
 		async __init() {
-			// Await
-			let [error, result] = await uni.request({
-				url: 'http://ceshi3.dishait.cn/api/index_category/data',
-				method: 'GET'
+			let data = await $H.get('/index_category/data').then(data => {
+				//初始化tabbars
+				this.tabBars = data.category;
+				//初始化页面
+				this.newsitems = this.setNewsitems(data);
 			});
-			//错误
-			if (error) {
-				return uni.showToast({
-					title: error.errMsg,
-					icon: 'none'
-				});
-			}
-			//失败
-			if (result.statusCode !== 200) {
-				return uni.showToast({
-					title: result.data.msg,
-					icon: 'none'
-				});
-			}
-			//成功
-			let data = result.data.data;
-			//初始化tabbars
-			this.tabBars = data.category;
-			//初始化页面
-			this.newsitems = this.setNewsitems(data);
 		},
 		//加载数据、刷新数据
 		async addData(callback = false, refresh = false) {
@@ -159,30 +142,26 @@ export default {
 				this.newsitems[e].firstLoad = 'ing';
 			}
 
-			let [error, result] = await uni.request({
-				url: 'http://ceshi3.dishait.cn/api/index_category/' + id + '/data/' + page,
-				method: 'GET'
-			});
+			let data = await $H.get('/index_category/' + id + '/data/' + page);
 
 			//修改请求状态，首次加载完成
 			if (page === 1 && this.newsitems[e].refreshShow === 'hide') {
 				this.newsitems[e].firstLoad = 'after';
 			}
-
 			//成功
-			let data = result.data.data;
+			if (data) {
+				//赋值渲染
+				this.newsitems[e].data = !refresh ? [...this.newsitems[e].data, ...data] : [...data];
 
-			//赋值渲染
-			this.newsitems[e].data = !refresh ? [...this.newsitems[e].data, ...data] : [...data];
-
-			//执行回调函数
-			if (typeof callback === 'function') {
-				callback();
-			}
-			//没有更多数据
-			if (data.length < 5) {
-				this.newsitems[e].loadingText = '没有更多了';
-				return;
+				//执行回调函数
+				if (typeof callback === 'function') {
+					callback();
+				}
+				//没有更多数据
+				if (data.length < 5) {
+					this.newsitems[e].loadingText = '没有更多了';
+					return;
+				}
 			}
 		},
 		// 初始化页面
