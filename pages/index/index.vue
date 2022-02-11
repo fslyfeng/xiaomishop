@@ -1,5 +1,17 @@
 <template>
 	<view class="pb-5">
+		<!-- 自定义导航 -->
+		<view class="d-flex a-center" style="height: 90rpx;">
+			<!-- 左边 -->
+			<view style="width: 85rpx;" class="d-flex a-center j-center"><text class="iconfont icon-xiaoxi"></text></view>
+			<!-- 中间 -->
+			<view class="flex-1 bg-light rounded d-flex a-center text-light-muted" style="height: 65rpx;">
+				<text class="iconfont icon-sousuo mx-2"></text>
+				搜索输入
+			</view>
+			<!-- 右边 -->
+			<view style="width: 85rpx;" class="d-flex a-center j-center"><text class="iconfont icon-richscan_icon"></text></view>
+		</view>
 		<!-- 顶部选项卡 -->
 		<scroll-view scroll-x class="border-bottom scroll-row" style="height: 80upx;" :scroll-into-view="scrollinto" :scroll-with-animation="true">
 			<view
@@ -195,10 +207,16 @@ export default {
 		};
 	},
 	onLoad() {
-		// 获取可视区域高度
+		// 获取可视区域高度`
 		uni.getSystemInfo({
 			success: res => {
-				this.scrollH = res.windowHeight - uni.upx2px(80);
+				// #ifdef APP-PLUS
+				let navbarH = 0;
+				// #endif
+				// #ifndef APP-PLUS
+				let navbarH = uni.upx2px(90);
+				// #endif
+				this.scrollH = res.windowHeight - uni.upx2px(80) - navbarH;
 			}
 		});
 		//初始化事件
