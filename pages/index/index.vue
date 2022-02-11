@@ -1,5 +1,7 @@
 <template>
-	<view class="pb-5">
+	<view style="height: 100vh;display: flex;flex-direction: column;">
+		<!-- #ifdef MP -->
+
 		<!-- 自定义导航 -->
 		<view class="d-flex a-center" style="height: 90rpx;">
 			<!-- 左边 -->
@@ -12,6 +14,7 @@
 			<!-- 右边 -->
 			<view style="width: 85rpx;" class="d-flex a-center j-center"><text class="iconfont icon-richscan_icon"></text></view>
 		</view>
+		<!-- #endif -->
 		<!-- 顶部选项卡 -->
 		<scroll-view scroll-x class="border-bottom scroll-row" style="height: 80upx;" :scroll-into-view="scrollinto" :scroll-with-animation="true">
 			<view
@@ -57,26 +60,7 @@
 
 <script>
 // 模拟后端数据
-let demoTabBars = [
-	{
-		name: '推荐'
-	},
-	{
-		name: '产品分类'
-	},
-	{
-		name: '推荐'
-	},
-	{
-		name: '产品分类'
-	},
-	{
-		name: '推荐'
-	},
-	{
-		name: '产品分类'
-	}
-];
+
 let demo1 = [
 	{
 		type: 'swiper',
@@ -210,13 +194,13 @@ export default {
 		// 获取可视区域高度`
 		uni.getSystemInfo({
 			success: res => {
-				// #ifdef APP-PLUS
+				// #ifndef MP
 				let navbarH = 0;
 				// #endif
-				// #ifndef APP-PLUS
+				// #ifdef MP
 				let navbarH = uni.upx2px(90);
 				// #endif
-				this.scrollH = res.windowHeight - uni.upx2px(80) - navbarH;
+				this.scrollH = res.windowHeight - uni.upx2px(82) - navbarH;
 			}
 		});
 		//初始化事件
@@ -226,23 +210,25 @@ export default {
 		//初始化事件
 		__init() {
 			// 获取顶部选项卡
-			this.tabBars = demoTabBars;
-			//根据顶部选项卡生成页面
-			let arr = [];
-			for (var i = 0; i < this.tabBars.length; i++) {
-				let obj = {
-					list: [],
-					//1.上拉加载更多 2.加载中... 3.没有更多内容了。
-					loadtext: '上拉加载更多'
-				};
-				//获取首屏数据
-				if (i === 0) {
-					obj.list = demo1;
-				}
+			this.$H.get('/index_category/data').then(res => {
+				this.tabBars = res.category;
+				//根据顶部选项卡生成页面
+				let arr = [];
+				for (var i = 0; i < this.tabBars.length; i++) {
+					let obj = {
+						list: [],
+						//1.上拉加载更多 2.加载中... 3.没有更多内容了。
+						loadtext: '上拉加载更多'
+					};
+					//获取首屏数据
+					if (i === 0) {
+						obj.list = res.data;
+					}
 
-				arr.push(obj);
-			}
-			this.newsitems = arr;
+					arr.push(obj);
+				}
+				this.newsitems = arr;
+			});
 		},
 		// 切换选项卡
 		changeTab(index) {
