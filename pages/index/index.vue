@@ -34,19 +34,20 @@
 			<swiper-item v-for="(item, index) in newsitems" :key="index">
 				<scroll-view scroll-y="true" :style="'height:' + scrollH + 'px;'" @scrolltolower="loadmore(index)">
 					<block v-for="(list, listIndex) in item.list" :key="listIndex">
-						<!-- 轮播图组件 swiper-image.vue-->
+						<!-- 轮播图组件 -->
 						<swiper-image v-if="list.type === 'swiper'" :resdata="list.data" />
+
 						<template v-else-if="list.type === 'indexnavs'">
 							<!-- 首页分类 -->
 							<index-nav :resdata="list.data" />
-							<!-- 全局分割线 -->
 							<divider />
 						</template>
+
 						<!-- 大图广告位 -->
 						<!-- <card headTitle="每日精选" bodyCover="../../static/images/demo/demo4.jpg" /> -->
 						<!-- 公共列表组件 -->
-						<view class="row j-sb pb-5" v-else-if="list.type === 'commonList'">
-							<block v-for="(item2, index2) in list.data" :key="index2"><commonList :item="item2" :index="index2"></commonList></block>
+						<view class="row j-sb" v-else-if="list.type === 'list'">
+							<block v-for="(item2, index2) in list.data" :key="index2"><common-list :item="item2" :index="index2" /></block>
 						</view>
 					</block>
 					<!-- 上拉加载更多 -->
@@ -218,7 +219,8 @@ export default {
 					let obj = {
 						list: [],
 						//1.上拉加载更多 2.加载中... 3.没有更多内容了。
-						loadtext: '上拉加载更多'
+						loadtext: '上拉加载更多',
+						firstLoad: false
 					};
 					//获取首屏数据
 					if (i === 0) {
@@ -244,27 +246,41 @@ export default {
 			this.changeTab(e.detail.current);
 		},
 		// 加载数据
-		addData() {
+		async addData(callback = false) {
 			//拿到当前索引
 			let index = this.tabIndex;
-			//请求数据库
-			this.newsitems[index].list = demo2;
+
+			let obj = this.newsitems[index];
+			//拿到当前分类id
+			let id = this.tabBars[index].id;
+			//拿到当前分类页数
+			let page = Math.ceil(obj.list.length / 5) + 1;
+			//请求数据
+			let data = await this.$H.get('/index_category/' + id + '/data/' + page);
+
+			if (data) {
+				//赋值
+				obj.list = [...obj.list, ...data];
+				obj.loadtext = data.length < 5 ? '没有更多了' : '上拉加载更多';
+			}
+			//执行回调函数
+			if (typeof callback === 'function') {
+				callback();
+			}
 		},
 		// 上拉加载更多
 		loadmore(index) {
 			let item = this.newsitems[index];
-			//是否处于可加载状态
-			if (item.loadtext !== '上拉加载更多') {
-				return;
-			}
-			//模拟加载
+			// 是否处于可加载状态
+			if (item.loadtext !== '上拉加载更多') return;
+			// 模拟加载
 			item.loadtext = '加载中...';
-			setTimeout(() => {
-				// 加载数据
-				item.list = [...item.list, ...demo2];
-				//恢复状态
-				item.loadtext = '上拉加载更多';
-			}, 2000);
+
+			this.addData(() => {
+				uni.showToast({
+					title: '加载成功'
+				});
+			});
 		}
 	}
 };
