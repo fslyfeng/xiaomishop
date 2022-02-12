@@ -198,6 +198,7 @@ export default {
 				// #ifndef MP
 				let navbarH = 0;
 				// #endif
+
 				// #ifdef MP
 				let navbarH = uni.upx2px(90);
 				// #endif
@@ -216,11 +217,13 @@ export default {
 				//根据顶部选项卡生成页面
 				let arr = [];
 				for (var i = 0; i < this.tabBars.length; i++) {
+					let firstLoad = i === 0 ? 'after' : 'before';
 					let obj = {
 						list: [],
 						//1.上拉加载更多 2.加载中... 3.没有更多内容了。
 						loadtext: '上拉加载更多',
-						firstLoad: false
+						//首次加载：before加载前,after加载后
+						firstLoad: firstLoad
 					};
 					//获取首屏数据
 					if (i === 0) {
@@ -239,6 +242,9 @@ export default {
 			}
 			this.tabIndex = index;
 			this.scrollinto = 'tab' + index;
+			if (this.newsitems[index].firstLoad === 'after') {
+				return;
+			}
 			this.addData();
 		},
 		// 临听滑动列表
@@ -255,14 +261,18 @@ export default {
 			let id = this.tabBars[index].id;
 			//拿到当前分类页数
 			let page = Math.ceil(obj.list.length / 5) + 1;
+
 			//请求数据
 			let data = await this.$H.get('/index_category/' + id + '/data/' + page);
-
+			//请求完数据
+			console.log(data);
+			obj.firstLoad = 'after';
 			if (data) {
 				//赋值
 				obj.list = [...obj.list, ...data];
 				obj.loadtext = data.length < 5 ? '没有更多了' : '上拉加载更多';
 			}
+
 			//执行回调函数
 			if (typeof callback === 'function') {
 				callback();
