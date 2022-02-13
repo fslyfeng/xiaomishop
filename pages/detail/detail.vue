@@ -69,29 +69,7 @@ export default {
 			],
 			strings:
 				'<div style="text-align:center;"><img style="max-width: 100%;max-height: 100%;display: block;margin: auto;" src="https://img.alicdn.com/imgextra/i4/12165322/O1CN01YNJqPl1pBWLWnzan5_!!12165322.png"/><img style="max-width: 100%;max-height: 100%;display: block;margin: auto;" src="https://img.alicdn.com/imgextra/i2/12165322/TB2ELBlquySBuNjy1zdXXXPxFXa_!!12165322.png"/><img style="max-width: 100%;max-height: 100%;display: block;margin: auto;" src="https://img.alicdn.com/imgextra/i4/12165322/O1CN01fRpPsA1pBWOlo8mjI_!!12165322.png"/></div>',
-			banners: [
-				{
-					src: '/static/images/pic/LQ01/00001_.jpg'
-				},
-				{
-					src: '/static/images/pic/LQ01/00002_.jpg'
-				},
-				{
-					src: '/static/images/pic/LQ01/00003_.jpg'
-				},
-				{
-					src: '/static/images/pic/LQ01/00004_.jpg'
-				},
-				{
-					src: '/static/images/pic/LQ01/00005_.jpg'
-				},
-				{
-					src: '/static/images/pic/LQ01/00006_.jpg'
-				},
-				{
-					src: '/static/images/pic/LQ01/00007_.jpg'
-				}
-			],
+			banners: [],
 			detail: {
 				title: '多功能电动直升机',
 				desc: '内置功格兰场16W洗衣干衣机、内置功格兰场16W洗衣干衣机、内置功格兰场16W洗衣干衣机、内置功格兰场16W洗衣干衣机',
@@ -149,7 +127,24 @@ export default {
 			]
 		};
 	},
-	methods: {}
+	onLoad(e) {
+		if (e.detail) {
+			this.__init(JSON.parse(e.detail));
+		}
+	},
+	methods: {
+		// 初始化页面
+		__init(data) {
+			this.$H.get('/goods/' + data.id).then(res => {
+				//轮播图
+				this.banners = res.goodsBanner.map(v => {
+					return {
+						src: v.url
+					};
+				});
+			});
+		}
+	}
 };
 </script>
 
