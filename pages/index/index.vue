@@ -33,26 +33,35 @@
 		<swiper :duration="150" :current="tabIndex" :style="'height:' + scrollH + 'px;'" @change="onChangeTab">
 			<swiper-item v-for="(item, index) in newsitems" :key="index">
 				<scroll-view scroll-y="true" :style="'height:' + scrollH + 'px;'" @scrolltolower="loadmore(index)">
-					<block v-for="(list, listIndex) in item.list" :key="listIndex">
-						<!-- 轮播图组件 -->
-						<swiper-image v-if="list.type === 'swiper'" :resdata="list.data" />
+					<template v-if="item.list.length > 0">
+						<block v-for="(list, listIndex) in item.list" :key="listIndex">
+							<!-- 轮播图组件 -->
+							<swiper-image v-if="list.type === 'swiper'" :resdata="list.data" />
 
-						<template v-else-if="list.type === 'indexnavs'">
-							<!-- 首页分类 -->
-							<index-nav :resdata="list.data" />
-							<divider />
-						</template>
+							<template v-else-if="list.type === 'indexnavs'">
+								<!-- 首页分类 -->
+								<index-nav :resdata="list.data" />
+								<divider />
+							</template>
 
-						<!-- 大图广告位 -->
-						<!-- <card headTitle="每日精选" bodyCover="../../static/images/demo/demo4.jpg" /> -->
-						<!-- 公共列表组件 -->
-						<view class="row j-sb" v-else-if="list.type === 'list'">
-							<block v-for="(item2, index2) in list.data" :key="index2"><common-list :item="item2" :index="index2" /></block>
-						</view>
-					</block>
-					<!-- 上拉加载更多 -->
-					<divider />
-					<view class="d-flex a-center j-center text-light-muted font-md py-3">{{ item.loadtext }}</view>
+							<!-- 大图广告位 -->
+							<!-- <card headTitle="每日精选" bodyCover="../../static/images/demo/demo4.jpg" /> -->
+							<!-- 公共列表组件 -->
+							<view class="row j-sb" v-else-if="list.type === 'list'">
+								<block v-for="(item2, index2) in list.data" :key="index2"><common-list :item="item2" :index="index2" /></block>
+							</view>
+						</block>
+						<!-- 上拉加载更多 -->
+						<divider />
+						<view class="d-flex a-center j-center text-light-muted font-md py-3">{{ item.loadtext }}</view>
+					</template>
+					<template v-else-if="item.firstLoad === 'before' || item.firstLoad === 'ing'">
+						<view class="d-flex j-center a-center pt-5"><text class="font-sm text-light-muted">加载中...</text></view>
+					</template>
+					<!-- 空数据 -->
+					<template v-else>
+						<view class="d-flex j-center a-center pt-5"><text class="font-sm text-light-muted">暂无数据</text></view>
+					</template>
 				</scroll-view>
 			</swiper-item>
 		</swiper>
@@ -60,117 +69,6 @@
 </template>
 
 <script>
-// 模拟后端数据
-
-let demo1 = [
-	{
-		type: 'swiper',
-		data: [
-			{
-				src: '../../static/images/demo/demo4.jpg'
-			},
-			{
-				src: '../../static/images/demo/demo4.jpg'
-			},
-			{
-				src: '../../static/images/demo/demo4.jpg'
-			}
-		]
-	},
-	{
-		type: 'indexnavs',
-		data: [
-			{ src: '../../static/images/indexnav/1.png', text: '新品发布' },
-			{ src: '../../static/images/indexnav/2.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/3.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/4.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/5.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/6.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/7.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/8.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/9.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/10.gif', text: '新品发布' }
-		]
-	},
-	{
-		type: 'commonList',
-		data: [
-			{
-				cover: '/static/images/demo/list/1.jpg',
-				title: '米家空调',
-				desc: '产品编码',
-				oprice: 1299,
-				pprice: 1199
-			},
-			{
-				cover: '/static/images/demo/list/1.jpg',
-				title: '米家空调',
-				desc: '产品编码',
-				oprice: 1599,
-				pprice: 1199
-			},
-			{
-				cover: '/static/images/demo/list/1.jpg',
-				title: '米家空调',
-				desc: '产品编码',
-				oprice: 1699,
-				pprice: 1199
-			}
-		]
-	}
-];
-let demo2 = [
-	{
-		type: 'swiper',
-		data: [
-			{
-				src: '../../static/images/demo/demo4.jpg'
-			},
-			{
-				src: '../../static/images/demo/demo4.jpg'
-			},
-			{
-				src: '../../static/images/demo/demo4.jpg'
-			}
-		]
-	},
-	{
-		type: 'indexnavs',
-		data: [
-			{ src: '../../static/images/indexnav/1.png', text: '新品发布' },
-			{ src: '../../static/images/indexnav/2.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/3.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/4.gif', text: '新品发布' },
-			{ src: '../../static/images/indexnav/5.gif', text: '新品发布' }
-		]
-	},
-	{
-		type: 'commonList',
-		data: [
-			{
-				cover: '/static/images/demo/list/1.jpg',
-				title: '米家空调',
-				desc: '产品编码',
-				oprice: 1299,
-				pprice: 1199
-			},
-			{
-				cover: '/static/images/demo/list/1.jpg',
-				title: '米家空调',
-				desc: '产品编码',
-				oprice: 1599,
-				pprice: 1199
-			},
-			{
-				cover: '/static/images/demo/list/1.jpg',
-				title: '米家空调',
-				desc: '产品编码',
-				oprice: 1699,
-				pprice: 1199
-			}
-		]
-	}
-];
 import swiperImage from '@/components/index/swiper-image.vue';
 import indexNav from '@/components/index/index-nav.vue';
 import card from '@/components/common/card.vue';
@@ -222,6 +120,7 @@ export default {
 						list: [],
 						//1.上拉加载更多 2.加载中... 3.没有更多内容了。
 						loadtext: '上拉加载更多',
+
 						//首次加载：before加载前,after加载后
 						firstLoad: firstLoad
 					};
@@ -261,12 +160,17 @@ export default {
 			let id = this.tabBars[index].id;
 			//拿到当前分类页数
 			let page = Math.ceil(obj.list.length / 5) + 1;
-
+			// 请求前
+			if (page === 1) {
+				obj.loadtext = 'ing';
+			}
 			//请求数据
 			let data = await this.$H.get('/index_category/' + id + '/data/' + page);
 			//请求完数据
-			console.log(data);
-			obj.firstLoad = 'after';
+			if (page === 1) {
+				obj.firstLoad = 'after';
+			}
+
 			if (data) {
 				//赋值
 				obj.list = [...obj.list, ...data];
