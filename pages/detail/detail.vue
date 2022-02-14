@@ -4,7 +4,7 @@
 		<!-- 商品详情大图 -->
 		<swiper-image :resdata="banners" height="750" preview></swiper-image>
 		<!-- 基础详情 -->
-		<base-info :detail="detail"></base-info>
+		<base-info :detail="detail" :show-price="showPrice"></base-info>
 		<!-- 滚动商品特性 w170*h100 -->
 		<scroll-attrs :baseAttrs="baseAttrs"></scroll-attrs>
 		<!-- 属性选择 -->
@@ -127,6 +127,11 @@ export default {
 			]
 		};
 	},
+	computed: {
+		showPrice() {
+			return this.detail.min_oprice || 0.0;
+		}
+	},
 	onLoad(e) {
 		if (e.detail) {
 			this.__init(JSON.parse(e.detail));
@@ -140,6 +145,16 @@ export default {
 				this.banners = res.goodsBanner.map(v => {
 					return {
 						src: v.url
+					};
+				});
+				//初始化基本信息
+				this.detail = res;
+				//滚动商品属性
+				this.baseAttrs = res.goodsAttrs.map(v => {
+					return {
+						icon: 'icon-cpu',
+						title: v.name,
+						desc: v.value
 					};
 				});
 			});
