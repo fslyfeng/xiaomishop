@@ -10,14 +10,14 @@
 		<card headTitle="常用分类" :bodyPadding="true" :headBorderBottom="false">
 			<color-tag :item="item" v-for="(item, index) in cate" :key="index" :color="false"></color-tag>
 		</card>
-		<template v-if="historyList.length>0">
+		<template v-if="historyList.length > 0">
 			<!-- 分割线 -->
 			<divider />
 			<!-- 搜索记录 -->
 			<card headTitle="搜索记录">
-				<uni-list>
-					<uni-list-item v-for="(item,index) in historyList" :key="index" :title="item"></uni-list-item>
-				</uni-list>
+				<view slot="right" class="font text-light-muted" @click="clearHistory">清除搜索记录</view>
+				<uni-list-item v-for="(item,index) in historyList" :key="index" :title="item" :showArrow="false"
+					@click="quickSearch(item)"></uni-list-item>
 			</card>
 		</template>
 	</view>
@@ -34,8 +34,8 @@
 		},
 		data() {
 			return {
-				historyList: ["不锈钢", "合金"],
-				keyword: [],
+				historyList: [],
+				keyword: "",
 				hot: [{
 						name: '拉手套件'
 					},
@@ -91,20 +91,68 @@
 		onNavigationBarButtonTap() {
 			this.search()
 		},
+
+		onShow() {
+			// 加载历史记录
+			let history = uni.getStorageSync('searchHistory')
+			this.historyList = history ? JSON.parse(history) : []
+		},
+		onLoad() {
+			// 加载历史记录
+			let history = uni.getStorageSync('searchHistory')
+			this.historyList = history ? JSON.parse(history) : []
+		},
 		methods: {
 			search() {
 				if (this.keyword === '') {
 					return uni.showToast({
-						title: '输入搜索关键词为空！',
+						title: '关键词不能为空',
 						icon: 'none'
-					})
+					});
 				}
 				// #ifdef APP-PLUS
 				plus.key.hideSoftKeybord()
 				// #endif
 				// #ifndef APP-PLUS
 				uni.hideKeyboard()
-				// #endif
+				// #endif				
+				uni.navigateTo({
+					url: '../search-list/search-list?keyword=' + this.keyword
+				});
+
+				setTimeout(() => {
+					this.addHistory()
+				}, 500)
+			},
+			//加入搜索记录
+			addHistory() {
+				let index = this.historyList.indexOf(this.keyword)
+				if (index === -1) {
+					this.historyList.unshift(this.keyword)
+				} else {
+					this.historyList.unshift(this.historyList.splice(index, 1)[0])
+				}
+				// 移除最后一条
+				if (this.historyList.length > 6) {
+					this.historyList.splice(this.historyList.length - 1, 1)
+				}
+				uni.setStorageSync('searchHistory', JSON.stringify(this.historyList))
+			},
+			//清除搜索记录
+			clearHistory() {
+				uni.showModal({
+					title: '提示',
+					content: '是否要清除搜索历史记录？',
+					// showCancel: false,
+					cancelText: '取消',
+					confirmText: '确认清除',
+					success: res => {
+						if (res.confirm) {
+							uni.clearStorageSync()
+							this.historyList = []
+						}
+					},
+				});
 			}
 		}
 	};
