@@ -10,7 +10,7 @@ export default {
 		dataType: 'json'
 	},
 	//请求 返回promise
-	reuqest(options = {}) {
+	request(options = {}) {
 
 		// 组织参数
 		options.url = this.common.baseUrl + options.url
@@ -58,7 +58,7 @@ export default {
 		options.url = url
 		options.data = data
 		options.method = 'GET'
-		return this.reuqest(options)
+		return this.request(options)
 	},
 	// post请求
 	post(url, data = {}, options = {}) {
