@@ -97,6 +97,7 @@
 				this.$H.post('/goods/search', {
 					title: this.keyword,
 					page: this.page,
+					all: "asc"
 				}).then(res => {
 					let list = this.format(res)
 					this.list = [...list]
