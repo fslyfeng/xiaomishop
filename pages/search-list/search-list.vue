@@ -98,20 +98,25 @@
 					title: this.keyword,
 					page: this.page,
 				}).then(res => {
-					let list = res.map(item => {
-						var good_num = item.comments_count === 0 ? 0 : (item.comments_good_count / item
-							.comments_count) * 100
-						return {
-							id: item.id,
-							title: item.title,
-							titlepic: item.cover,
-							desc: item.desc,
-							pprice: item.min_price,
-							comment_num: item.comments_count,
-							good_num: good_num + '%'
-						}
-					})
-					console.log(JSON.stringify(list));
+					let list = this.format(res)
+					this.list = [...list]
+
+				})
+			},
+			//格式化
+			format(res) {
+				return res.map(item => {
+					var good_num = item.comments_count === 0 ? 0 : (item.comments_good_count / item
+						.comments_count) * 100
+					return {
+						id: item.id,
+						title: item.title,
+						titlepic: item.cover,
+						desc: item.desc,
+						pprice: item.min_price,
+						comment_num: item.comments_count,
+						good_num: good_num.toFixed(2) + '%'
+					}
 				})
 			},
 			showDrawer() {
