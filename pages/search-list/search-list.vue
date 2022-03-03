@@ -20,7 +20,7 @@
 		<!-- 抽屉 -->
 
 		<uni-drawer ref="showRight" mode="right" @close="closeDrawer()" :width="320">
-			<card headTitle="服务" :headBorderBottom="false" :headTitleWeight="false">
+			<card headTitle="售价" :headBorderBottom="false" :headTitleWeight="false">
 				<!-- 单选按钮组 -->
 				<zcm-radio-group :label="label" :selected.sync="label.selected"></zcm-radio-group>
 			</card>
@@ -76,16 +76,24 @@
 				label: {
 					selected: 0,
 					list: [{
-							name: '选项一'
+							name: "0.01-0.02",
+							rule: "between",
+							value: "0.01,0.02"
 						},
 						{
-							name: '选项二'
+							name: "0.02-0.03",
+							rule: "between",
+							value: "0.02,0.03"
 						},
 						{
-							name: '选项三'
+							name: "0.03-1",
+							rule: "between",
+							value: "0.03,1"
 						},
 						{
-							name: '选项四'
+							name: "大于1",
+							rule: ">",
+							value: "1"
 						}
 					]
 				}
@@ -100,6 +108,13 @@
 					[obj.key]: value,
 				};
 			},
+			//价格筛选
+			price() {
+				let item = this.label.list[this.label.selected]
+				return {
+					price: item.rule + ',' + item.value
+				}
+			}
 		},
 		onLoad(e) {
 			this.keyword = e.keyword
@@ -113,7 +128,8 @@
 				this.$H.post('/goods/search', {
 					title: this.keyword,
 					page: this.page,
-					...this.options
+					...this.options,
+					...this.price
 				}).then(res => {
 					let list = this.format(res)
 					this.list = [...list]
@@ -146,7 +162,10 @@
 				let oldIndex = this.screen.currentIndex;
 				let oldItem = this.screen.list[oldIndex];
 				if (oldIndex === index) {
-					return (oldItem.status = oldItem.status === 1 ? 2 : 1);
+					oldItem.status = oldItem.status === 1 ? 2 : 1;
+					//加载数据
+					this.getData()
+					return
 				}
 				let newIndex = this.screen.list[index];
 				//移除旧的激活状态
