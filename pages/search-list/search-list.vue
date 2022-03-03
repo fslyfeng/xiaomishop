@@ -57,15 +57,21 @@
 				screen: {
 					currentIndex: 0,
 					list: [{
-						name: '综合',
-						status: 1
-					}, {
-						name: '销量',
-						status: 0
-					}, {
-						name: '价格',
-						status: 0
-					}]
+							name: "综合",
+							status: 2,
+							key: "all"
+						},
+						{
+							name: "销量",
+							status: 0,
+							key: "sale_count"
+						},
+						{
+							name: "价格",
+							status: 0,
+							key: "min_price"
+						},
+					]
 				},
 				label: {
 					selected: 0,
@@ -85,6 +91,16 @@
 				}
 			};
 		},
+		computed: {
+			// 排序相关
+			options() {
+				let obj = this.screen.list[this.screen.currentIndex];
+				let value = obj.status === 1 ? "asc" : "desc";
+				return {
+					[obj.key]: value,
+				};
+			},
+		},
 		onLoad(e) {
 			this.keyword = e.keyword
 			//加载数据
@@ -97,7 +113,7 @@
 				this.$H.post('/goods/search', {
 					title: this.keyword,
 					page: this.page,
-					all: "asc"
+					...this.options
 				}).then(res => {
 					let list = this.format(res)
 					this.list = [...list]
@@ -138,6 +154,8 @@
 				this.screen.currentIndex = index;
 				//增加新激活状态
 				newIndex.status = 1;
+				//加载数据
+				this.getData()
 			}
 		}
 	};
