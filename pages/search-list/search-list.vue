@@ -24,7 +24,7 @@
 			<!-- 按钮 -->
 			<view class="d-flex position-fixed bottom-0 right-0 w-100 border-top border-light-secondary">
 				<view class="flex-1 main-bg-color text-white font-md py-2 text-center " hover-class="main-bg-hover-color" @click="confirm">确定</view>
-				<view class="flex-1 font-md py-2 text-center" hover-class="bg-light-secondary">重置</view>
+				<view class="flex-1 font-md py-2 text-center" hover-class="bg-light-secondary" @click="reset">重置</view>
 			</view>
 		</uni-drawer>
 		<!-- 列表 -->
@@ -71,6 +71,11 @@ export default {
 				selected: 0,
 				list: [
 					{
+						name: '不限',
+						rule: false,
+						value: false
+					},
+					{
 						name: '0.01-0.02',
 						rule: 'between',
 						value: '0.01,0.02'
@@ -92,7 +97,8 @@ export default {
 					}
 				]
 			},
-			condition: {}
+			condition: {},
+			oldSelected: 0
 		};
 	},
 	computed: {
@@ -145,7 +151,7 @@ export default {
 		showDrawer() {
 			this.$refs.showRight.open();
 			//记录已有的值
-			let old = this.label.selected;
+			this.oldSelected = this.label.selected;
 		},
 		//提交筛选条件
 		confirm() {
@@ -156,15 +162,31 @@ export default {
 			// 关闭抽屉
 			this.$refs.showRight.close();
 		},
+		//重置
+		reset() {
+			(this.condition = {}), (this.label.selected = 0);
+			//获取数据
+			this.getData();
+			//关闭抽屉
+			this.$refs.showRight.close();
+		},
 		//组强筛选条件
 		getCondition() {
 			let item = this.label.list[this.label.selected];
-			this.condition = {
-				price: item.rule + ',' + item.value
-			};
+			if (item.rule && item.value) {
+				this.condition = {
+					price: item.rule + ',' + item.value
+				};
+			}
 		},
+		//关闭抽屉
 		closeDrawer() {
+			//恢复回原来的值
+			this.label.selected = this.oldSelected;
+			//关闭
 			this.$refs.showRight.close();
+			//重置
+			this.oldSelected = 0;
 		},
 		changeScreen(index) {
 			//判断当前点击是否已经是激活状态
