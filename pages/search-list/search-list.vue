@@ -29,6 +29,8 @@
 		</uni-drawer>
 		<!-- 列表 -->
 		<block v-for="(item, index) in list" :key="index"><search-list :item="item" :index="index"></search-list></block>
+		<!-- 没有数据 -->
+		<no-Thing v-if="list.length === 0" msg="没有数据哦"></no-Thing>
 		<!-- 上拉加载更多 -->
 		<divider />
 		<view class="d-flex a-center j-center text-light-muted font-md py-3">{{ loadtext }}</view>
@@ -38,11 +40,12 @@
 <script>
 import card from '@/components/common/card.vue';
 import zcmRadioGroup from '@/components/common/radio-group.vue';
-
+import noThing from '@/components/common/no-thing.vue';
 export default {
 	components: {
 		card,
-		zcmRadioGroup
+		zcmRadioGroup,
+		noThing
 	},
 	data() {
 		return {
@@ -116,6 +119,15 @@ export default {
 			};
 		}
 	},
+	onNavigationBarSearchInputChanged(e) {
+		this.keyword = e.text;
+	},
+	onNavigationBarSearchInputConfirmed() {
+		this.search();
+	},
+	onNavigationBarButtonTap() {
+		this.search();
+	},
 	onLoad(e) {
 		this.keyword = e.keyword;
 		//加载数据
@@ -141,6 +153,38 @@ export default {
 	},
 
 	methods: {
+		search() {
+			if (this.keyword === '') {
+				return uni.showToast({
+					title: '关键词不能为空',
+					icon: 'none'
+				});
+			}
+			// #ifdef APP-PLUS
+			plus.key.hideSoftKeybord();
+			// #endif
+			// #ifndef APP-PLUS
+			uni.hideKeyboard();
+			// #endif
+
+			setTimeout(() => {
+				this.addHistory();
+			}, 500);
+			this.getData();
+		},
+		addHistory() {
+			//拿到所有的搜索历史
+			let history = uni.getStorageSync('searchHistory');
+			history = history ? JSON.parse(history) : [];
+			//判断之前是否有该搜索记录
+			let index = history.indexOf(this.keyword);
+			if (index === -1) {
+				history.unshift(this.keyword);
+			} else {
+				history.unshift(history.splice(index, 1)[0]);
+			}
+			uni.setStorageSync('searchHistory', JSON.stringify(history));
+		},
 		//加载数据
 		getData(refresh = true, callback = false) {
 			let page = refresh ? 1 : this.page;
@@ -207,7 +251,8 @@ export default {
 					? {
 							price: item.rule + ',' + item.value
 					  }
-					: {};		},
+					: {};
+		},
 		//关闭抽屉
 		closeDrawer() {
 			//恢复回原来的值
