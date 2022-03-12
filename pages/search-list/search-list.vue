@@ -29,6 +29,9 @@
 		</uni-drawer>
 		<!-- 列表 -->
 		<block v-for="(item, index) in list" :key="index"><search-list :item="item" :index="index"></search-list></block>
+		<!-- 上拉加载更多 -->
+		<divider />
+		<view class="d-flex a-center j-center text-light-muted font-md py-3">{{ loadtext }}</view>
 	</view>
 </template>
 
@@ -43,6 +46,8 @@ export default {
 	},
 	data() {
 		return {
+			// 1.上拉加载更多 2.加载中... 3.没有更多了
+			loadtext: '上拉加载更多',
 			keyword: '',
 			list: [],
 			page: 1,
@@ -116,10 +121,16 @@ export default {
 		//加载数据
 		this.getData();
 	},
+	onReachBottom() {
+		//是否已经处于加载状态
+		if (this.loadtext !== '上拉加载更多') return;
+		//改变加载状态
+		this.getData();
+	},
 
 	methods: {
 		//加载数据
-		getData() {
+		getData(callback = false) {
 			this.$H
 				.post('/goods/search', {
 					title: this.keyword,
@@ -129,7 +140,12 @@ export default {
 				})
 				.then(res => {
 					let list = this.format(res);
-					this.list = [...list];
+					this.list = [...this.list, ...list];
+					//恢复加载状态
+					this.loadtext = res.length < 10 ? '没有更多了' : '上拉加载更多';
+					if (typeof callback === 'function') {
+						callback();
+					}
 				});
 		},
 		//格式化
