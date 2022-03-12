@@ -102,6 +102,7 @@
 		{
 			"path": "pages/search-list/search-list",
 			"style": {
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"scrollIndicator": "none",
 					"titleNView": {

@@ -121,26 +121,39 @@ export default {
 		//加载数据
 		this.getData();
 	},
+	onPullDownRefresh() {
+		this.getData(true, () => {
+			uni.showToast({
+				title: '刷新成功',
+				icon: 'none'
+			});
+			uni.stopPullDownRefresh();
+		});
+	},
 	onReachBottom() {
 		//是否已经处于加载状态
 		if (this.loadtext !== '上拉加载更多') return;
 		//改变加载状态
-		this.getData();
+		this.loadtext = '加载中...';
+		this.page++;
+		//请求数据
+		this.getData(false);
 	},
 
 	methods: {
 		//加载数据
-		getData(callback = false) {
+		getData(refresh = true, callback = false) {
+			let page = refresh ? 1 : this.page;
 			this.$H
 				.post('/goods/search', {
 					title: this.keyword,
-					page: this.page,
+					page: page,
 					...this.options,
 					...this.condition
 				})
 				.then(res => {
 					let list = this.format(res);
-					this.list = [...this.list, ...list];
+					this.list = refresh ? [...list] : [...this.list, ...list];
 					//恢复加载状态
 					this.loadtext = res.length < 10 ? '没有更多了' : '上拉加载更多';
 					if (typeof callback === 'function') {
@@ -189,12 +202,12 @@ export default {
 		//组强筛选条件
 		getCondition() {
 			let item = this.label.list[this.label.selected];
-			if (item.rule && item.value) {
-				this.condition = {
-					price: item.rule + ',' + item.value
-				};
-			}
-		},
+			this.condition =
+				item.rule && item.value
+					? {
+							price: item.rule + ',' + item.value
+					  }
+					: {};		},
 		//关闭抽屉
 		closeDrawer() {
 			//恢复回原来的值
