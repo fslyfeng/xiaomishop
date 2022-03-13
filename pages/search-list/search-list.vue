@@ -3,7 +3,7 @@
 		<!-- 搜索列表 -->
 
 		<!-- 排序|筛选 -->
-		<view class="d-flex border-top border-bottom a-center" style="height: 100upx;">
+		<view class="d-flex border-top border-bottom a-center position-fixed top-0 left-0 right-0 bg-white" style="height: 100rpx;z-index: 100;">
 			<view class="flex-1 d-flex a-center j-center font-md" v-for="(item, index) in screen.list" :key="index" @tap="changeScreen(index)">
 				<text :class="screen.currentIndex === index ? 'main-text-color' : 'text-muted'">{{ item.name }}</text>
 				<view>
@@ -13,6 +13,7 @@
 			</view>
 			<view class="flex-1 d-flex a-center j-center font-md"><text class="main-text-color" @click="showDrawer">筛选</text></view>
 		</view>
+		<view style="height: 100rpx;"></view>
 		<!-- 抽屉 -->
 
 		<uni-drawer ref="showRight" mode="right" @close="closeDrawer()" :width="320">
@@ -153,6 +154,13 @@ export default {
 	},
 
 	methods: {
+		//初始化搜索
+		initSearch() {
+			this.label.selected = 0;
+			this.condition = {};
+			this.page = 1;
+		},
+
 		search() {
 			if (this.keyword === '') {
 				return uni.showToast({
@@ -170,6 +178,7 @@ export default {
 			setTimeout(() => {
 				this.addHistory();
 			}, 500);
+			this.initSearch();
 			this.getData();
 		},
 		addHistory() {
