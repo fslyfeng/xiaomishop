@@ -1,5 +1,5 @@
 <template>
-	<view style="width:373.5upx;">
+	<view style="width:373.5upx;" @click="openDetail()">
 		<image :src="item.cover" mode="widthFix" lazy-load></image>
 		<view class="p-2 pt-1">
 			<view class="font-md">{{ item.title }}</view>
@@ -15,12 +15,19 @@
 <script>
 import price from '@/components/common/price.vue';
 export default {
-	components:{
+	components: {
 		price
 	},
 	props: {
 		item: Object,
 		index: Number
+	},
+	methods: {
+		openDetail() {
+			uni.redirectTo({
+				url: '/pages/detail/detail?detail=' + JSON.stringify(this.item)
+			});
+		}
 	}
 };
 </script>
