@@ -14,8 +14,8 @@
 		</scroll-view>
 		<scroll-view scroll-y="true" style="flex: 3.5;height: 100%;" :scroll-top="RightScrollTop" :scroll-with-animation="true" @scroll="onRightScroll">
 			<view class="row right-scroll-item" v-for="(item, index) in list" :key="index">
-				<view class="span24-12 text-center py-2" v-for="(item2, index2) in item.list" :key="index2">
-					<image :src="item2.src" style="width: 260upx;height: 260upx;"></image>
+				<view class="span24-12 text-center py-2" v-for="(item2, index2) in item.list" :key="index2" @click="openDetail(item2)">
+					<image :src="item2.cover" style="width: 260upx;height: 260upx;"></image>
 					<text class="d-block">{{ item2.name }}</text>
 				</view>
 			</view>
@@ -61,26 +61,6 @@ export default {
 	onLoad() {
 		this.getData();
 	},
-	onReady() {
-		this.getElInfo({
-			all: 'left',
-			size: true,
-			rect: true
-		}).then(data => {
-			this.leftDomsTop = data.map(v => {
-				this.cateItemHeight = v.height;
-				return v.top;
-			});
-		});
-
-		this.getElInfo({
-			all: 'right',
-			size: false,
-			rect: true
-		}).then(data => {
-			this.RightDomsTop = data.map(v => v.top);
-		});
-	},
 	methods: {
 		//获取节点信息
 		getElInfo(obj = {}) {
@@ -98,22 +78,43 @@ export default {
 			});
 		},
 		getData() {
-			for (let i = 0; i < 20; i++) {
-				this.cate.push({
-					name: '分类' + i
+			this.$H.get('/category/app_category').then(res => {
+				var cate = [];
+				var list = [];
+				res.forEach(v => {
+					cate.push({
+						id: v.id,
+						name: v.name
+					});
+					list.push({
+						list: v.app_category_items
+					});
 				});
-				this.list.push({
-					list: []
+				this.cate = cate;
+				this.list = list;
+
+				//加载数据成功后隐藏动画
+				this.$nextTick(() => {
+					this.getElInfo({
+						all: 'left',
+						size: true,
+						rect: true
+					}).then(data => {
+						this.leftDomsTop = data.map(v => {
+							this.cateItemHeight = v.height;
+							return v.top;
+						});
+					});
+
+					this.getElInfo({
+						all: 'right',
+						size: false,
+						rect: true
+					}).then(data => {
+						this.RightDomsTop = data.map(v => v.top);
+					});
+					this.showLoading = false;
 				});
-			}
-			for (let i = 0; i < this.list.length; i++) {
-				for (var j = 0; j < 24; j++) {
-					this.list[i].list.push({ src: '/static/images/demo/list/5.jpg', name: `分类${i}-商品${j}` });
-				}
-			}
-			//加载数据成功后隐藏动画
-			this.$nextTick(() => {
-				this.showLoading = false;
 			});
 		},
 		//点击左边分类
@@ -131,6 +132,17 @@ export default {
 					this.activeIndex = k;
 					return false;
 				}
+			});
+		},
+		//打开详情页
+		openDetail(item) {
+			uni.navigateTo({
+				url:
+					'../detail/detail?detail=' +
+					JSON.stringify({
+						id: item.goods_id,
+						title: item.name
+					})
 			});
 		}
 	}
