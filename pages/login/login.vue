@@ -45,10 +45,10 @@ export default {
 			//验证规则
 			rules: {
 				username: [
-					{
-						rule: /^[a-zA-Z]\w{5,17}$/,
-						msg: '账号请以字母开头，长度在6-18之间，只能包含字母，数字和下划线'
-					}
+					// {
+					// 	rule: /^[a-zA-Z]\w{5,17}$/,
+					// 	msg: '账号请以字母开头，长度在6-18之间，只能包含字母，数字和下划线'
+					// }
 				],
 				password: [
 					{
@@ -99,16 +99,23 @@ export default {
 			//验证密码
 			if (!this.validate('password')) return;
 			console.log('提交成功');
+
 			uni.showLoading({
 				title: '登录中....',
 				mask: true
 			});
-			setTimeout(() => {
-				uni.hideLoading();
-				uni.navigateBack({
-					delta: 1
+			this.$H
+				.post('/login', {
+					username: this.username,
+					password: this.password
+				})
+				.then(res => {
+					console.log(res);
+					uni.hideLoading();
+					uni.navigateBack({
+						delta: 1
+					});
 				});
-			}, 3000);
 		},
 		focus(key) {
 			this.focusClass[key] = true;

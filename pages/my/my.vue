@@ -9,20 +9,19 @@
 			<image src="../../static/images/bg.jpg" style="height: 320rpx;width: 100%;"></image>
 			<view class="d-flex a-center position-absolute left-0 right-0" style="bottom: 50rpx;">
 				<image src="../../static/images/demo/demo6.jpg" style="height: 145rpx;width: 145rpx;border: 5rpx solid;" class="rounded-circle border-light ml-4"></image>
-				<navigator url="../login/login"><view class="ml-2 text-white font-md" @>用户名称</view></navigator>
-
+				<view class="ml-2 text-white font-md" @click="openLogin()">登陆/注册</view>
 				<view
 					class="d-flex a-center j-center a-self-end ml-auto px-2"
 					style="height: 70rpx;background: #FFD43F;color: #CC4A00;border-top-left-radius: 40rpx;border-bottom-left-radius: 40rpx;"
 				>
 					<view class="line-h iconfont icon-huangguan mr-1"></view>
-					会员积份 1.99
+					会员积份 0.00
 				</view>
 			</view>
 		</view>
 
 		<card>
-			<view slot="title" class="d-flex a-center j-sb">
+			<view slot="title" class="d-flex a-center j-sb w-100">
 				<text class="font-md font-weight p-2" hover-class="bg-light-secondary">我的订单</text>
 				<view class="text-secondary py-2 font">
 					全部订单
@@ -63,7 +62,13 @@ export default {
 	data() {
 		return {};
 	},
-	methods: {}
+	methods: {
+		openLogin() {
+			uni.navigateTo({
+				url: '../login/login'
+			});
+		}
+	}
 };
 </script>
 
