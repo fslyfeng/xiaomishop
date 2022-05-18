@@ -8,8 +8,12 @@
 			</navigator>
 			<image src="../../static/images/bg.jpg" style="height: 320rpx;width: 100%;"></image>
 			<view class="d-flex a-center position-absolute left-0 right-0" style="bottom: 50rpx;">
-				<image src="../../static/images/demo/demo6.jpg" style="height: 145rpx;width: 145rpx;border: 5rpx solid;" class="rounded-circle border-light ml-4"></image>
-				<view class="ml-2 text-white font-md" @click="openLogin()">登陆/注册</view>
+				<image
+					:src="loginStatus ? userInfo.avatar : '/static/images/demo/demo6.jpg'"
+					style="height: 145rpx;width: 145rpx;border: 5rpx solid;"
+					class="rounded-circle border-light ml-4"
+				></image>
+				<view class="ml-2 text-white font-md" @click="openLogin()">{{ loginStatus ? userInfo.nickname : '登录/注册' }}</view>
 				<view
 					class="d-flex a-center j-center a-self-end ml-auto px-2"
 					style="height: 70rpx;background: #FFD43F;color: #CC4A00;border-top-left-radius: 40rpx;border-bottom-left-radius: 40rpx;"
@@ -55,6 +59,7 @@
 
 <script>
 import card from '@/components/common/card.vue';
+import { mapState } from 'vuex';
 export default {
 	components: {
 		card
@@ -62,11 +67,19 @@ export default {
 	data() {
 		return {};
 	},
+	computed: {
+		...mapState({
+			loginStatus: state => state.user.loginStatus,
+			userInfo: state => state.user.userInfo
+		})
+	},
 	methods: {
 		openLogin() {
-			uni.navigateTo({
-				url: '../login/login'
-			});
+			if (!this.loginStatus) {
+				uni.navigateTo({
+					url: '../login/login'
+				});
+			}
 		}
 	}
 };

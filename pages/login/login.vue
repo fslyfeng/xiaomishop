@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 export default {
 	data() {
 		return {
@@ -63,7 +64,9 @@ export default {
 			}
 		};
 	},
+
 	methods: {
+		...mapMutations(['login']),
 		goBack() {
 			uni.navigateBack({
 				delta: 1
@@ -100,18 +103,22 @@ export default {
 			if (!this.validate('password')) return;
 			console.log('提交成功');
 
-			uni.showLoading({
-				title: '登录中....',
-				mask: true
-			});
+			// uni.showLoading({
+			// 	title: '登录中....',
+			// 	mask: true
+			// });
 			this.$H
 				.post('/login', {
 					username: this.username,
 					password: this.password
 				})
 				.then(res => {
-					console.log(res);
+					//状态存储
+					this.login(res);
 					uni.hideLoading();
+					uni.showToast({
+						title: '登陆成功！'
+					});
 					uni.navigateBack({
 						delta: 1
 					});
