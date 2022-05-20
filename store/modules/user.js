@@ -9,16 +9,16 @@ export default {
 	},
 	mutations: {
 		// 初始化登录状态
-		// initUser(state) {
-		// 	let userInfo = uni.getStorageSync('userInfo')
-		// 	if (userInfo) {
-		// 		userInfo = JSON.parse(userInfo)
+		initUser(state) {
+			let userInfo = uni.getStorageSync('userInfo')
+			if (userInfo) {
+				userInfo = JSON.parse(userInfo)
 
-		// 		state.userInfo = userInfo
-		// 		state.token = userInfo.token
-		// 		state.loginStatus = true
-		// 	}
-		// },
+				state.userInfo = userInfo
+				state.token = userInfo.token
+				state.loginStatus = true
+			}
+		},
 		// 登录
 		login(state, userinfo) {
 			state.userInfo = userinfo

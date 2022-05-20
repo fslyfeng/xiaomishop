@@ -1,10 +1,15 @@
 <template>
 	<view>
-		<card :headTitle="item.lable" v-for="(item, index) in list" :key="index">
+		<card v-if="loginStatus" headTitle="账号管理" bodyStyle="background:#ffffff;">
+			<uni-list-item title="个人资料"></uni-list-item>
+			<uni-list-item title="收货地址" @click="navigate('user-path-list')"></uni-list-item>
+		</card>
+
+		<card headTitle="关于商城" v-for="(item, index) in list" :key="index">
 			<uni-list><uni-list-item :title="list.title" v-for="(list, listIndex) in item.value" link="reLaunch" :key="listIndex" :to="list.path"></uni-list-item></uni-list>
 		</card>
 
-		<view class="p-3"><button type="default" class="bg-white" @click="logoutEvent()">退出登录</button></view>
+		<view class="p-3" v-if="loginStatus"><button type="default" class="bg-white" @click="logoutEvent()">退出登录</button></view>
 	</view>
 </template>
 
@@ -19,11 +24,6 @@ export default {
 		return {
 			list: [
 				{
-					lable: '账号管理',
-					value: [{ title: '个人资料', path: '' }, { title: '收货地址', path: '' }]
-				},
-				{
-					lable: '关于商城',
 					value: [
 						{ title: '关于商城', path: '/pages/about/about' },
 						{ title: '意见反馈', path: '' },
