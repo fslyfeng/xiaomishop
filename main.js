@@ -20,6 +20,22 @@ Vue.component('loading', loading)
 import $H from '@/common/lib/request.js';
 Vue.prototype.$H = $H
 
+
+//权限跳转
+Vue.prototype.navigateTo = (options) => {
+	//判断用户是否登录
+	if (!store.state.user.loginStatus) {
+		uni.showToast({
+			title: '请先登录',
+			icon: 'none'
+		});
+		return uni.navigateTo({
+			url: '/pages/login/login',
+		});
+	}
+	uni.navigateTo(options);
+
+}
 App.mpType = 'app'
 
 const app = new Vue({

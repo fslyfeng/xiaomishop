@@ -27,7 +27,7 @@
 		<card>
 			<view slot="title" class="d-flex a-center j-sb w-100">
 				<text class="font-md font-weight p-2" hover-class="bg-light-secondary">我的订单</text>
-				<view class="text-secondary py-2 font">
+				<view class="text-secondary py-2 font ml-auto" @click="navigate('order')">
 					全部订单
 					<text class="iconfont icon-you font"></text>
 				</view>
@@ -74,6 +74,22 @@ export default {
 		})
 	},
 	methods: {
+		navigate(path, check = false) {
+			if (!path) return;
+
+			this.navigateTo({
+				url: `/pages/${path}/${path}`
+			});
+
+			// if (check) {
+			// 	return this.navigateTo({
+			// 		url: `/pages/${path}/${path}`
+			// 	});
+			// }
+			// uni.navigateTo({
+			// 	url: `/pages/${path}/${path}`
+			// });
+		},
 		openLogin() {
 			if (!this.loginStatus) {
 				uni.navigateTo({
