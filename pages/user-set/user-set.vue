@@ -5,8 +5,8 @@
 			<uni-list-item title="收货地址" @click="navigate('user-path-list')"></uni-list-item>
 		</card>
 
-		<card headTitle="关于商城" v-for="(item, index) in list" :key="index">
-			<uni-list><uni-list-item :title="list.title" v-for="(list, listIndex) in item.value" link="reLaunch" :key="listIndex" :to="list.path"></uni-list-item></uni-list>
+		<card headTitle="关于商城">
+			<uni-list><uni-list-item :title="item.title" v-for="(item, index) in list" link="reLaunch" :key="index"></uni-list-item></uni-list>
 		</card>
 
 		<view class="p-3" v-if="loginStatus"><button type="default" class="bg-white" @click="logoutEvent()">退出登录</button></view>
@@ -23,16 +23,12 @@ export default {
 	data() {
 		return {
 			list: [
-				{
-					value: [
-						{ title: '关于商城', path: '/pages/about/about' },
-						{ title: '意见反馈', path: '' },
-						{ title: '协议规则', path: '' },
-						{ title: '资质证件', path: '' },
-						{ title: '用户协议', path: '' },
-						{ title: '隐私政策', path: '' }
-					]
-				}
+				{ title: '关于商城', path: '/pages/about/about' },
+				{ title: '意见反馈', path: '' },
+				{ title: '协议规则', path: '' },
+				{ title: '资质证件', path: '' },
+				{ title: '用户协议', path: '' },
+				{ title: '隐私政策', path: '' }
 			]
 		};
 	},
@@ -47,21 +43,26 @@ export default {
 
 		//退出登录
 		logoutEvent() {
-			// this.$H.post('/logout',{},{
-			// 					token:false,
-			// 					toast:false
-			// 				}).then(res=>{
-			// 		// 退出登录
-			this.logout();
+			this.$H
+				.post(
+					'/logout',
+					{},
+					{
+						token: true
+					}
+				)
+				.then(res => {
+					// 退出登录
+					this.logout();
 
-			uni.showToast({
-				title: '退出成功',
-				icon: 'none'
-			});
-			uni.navigateBack({
-				delta: 1
-			});
-			//});
+					uni.showToast({
+						title: '退出成功',
+						icon: 'none'
+					});
+					uni.navigateBack({
+						delta: 1
+					});
+				});
 		}
 	}
 };
