@@ -21,6 +21,16 @@ export default {
 		//token
 		if (options.token) {
 			options.header.token = $store.state.user.token
+			//二次验证
+			if (options.checkToken && !options.header.token) {
+				uni.showToast({
+					title: '请先登录！',
+					icon: 'none'
+				})
+				return uni.navigateTo({
+					url: '/pages/login/login',
+				});
+			}
 		}
 
 		//请求

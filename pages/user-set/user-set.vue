@@ -9,7 +9,7 @@
 			<uni-list><uni-list-item :title="item.title" v-for="(item, index) in list" link="reLaunch" :key="index"></uni-list-item></uni-list>
 		</card>
 
-		<view class="p-3" v-if="loginStatus"><button type="default" class="bg-white" @click="logoutEvent()">退出登录</button></view>
+		<view class="p-3"><button type="default" class="bg-white" @click="logoutEvent()">退出登录</button></view>
 	</view>
 </template>
 
@@ -48,20 +48,22 @@ export default {
 					'/logout',
 					{},
 					{
-						token: true
+						token: true,
+						checkToken: true
 					}
 				)
 				.then(res => {
 					// 退出登录
-					this.logout();
+					console.log(res);
+					// this.logout();
 
-					uni.showToast({
-						title: '退出成功',
-						icon: 'none'
-					});
-					uni.navigateBack({
-						delta: 1
-					});
+					// uni.showToast({
+					// 	title: '退出成功',
+					// 	icon: 'none'
+					// });
+					// uni.navigateBack({
+					// 	delta: 1
+					// });
 				});
 		}
 	}
